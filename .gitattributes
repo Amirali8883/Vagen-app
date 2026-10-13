@@ -1,0 +1,31 @@
+# Normalize line endings
+* text=auto
+
+# Explicitly treat common text files as text
+*.py text
+*.js text
+*.ts text
+*.json text
+*.yaml text
+*.yml text
+*.toml text
+*.md text
+*.txt text
+*.csv text
+*.html text
+*.css text
+*.sh text
+
+# Keep shell scripts using LF
+*.sh text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.gz binary

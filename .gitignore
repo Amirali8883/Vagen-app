@@ -1,0 +1,253 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Packaging
+.Python
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-wheel-metadata/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# uv
+.uv/
+# uv.lock is intentionally tracked
+
+# Other Python package managers
+.pdm-python
+.pdm-build/
+.pixi/
+__pypackages__/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+coverage.xml
+nosetests.xml
+*.cover
+
+# Type checkers / linters
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.pyright/
+.ruff_cache/
+.pylint.d/
+cython_debug/
+
+# Jupyter / IPython
+.ipynb_checkpoints/
+.jupyter/
+profile_default/
+ipython_config.py
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Django / Flask
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+instance/
+.webassets-cache/
+
+# Other Python tools
+.scrapy/
+.pybuilder/
+.ropeproject
+.spyderproject
+.spyproject
+.abstra/
+marimo/_static/
+marimo/_lsp/
+__marimo__/
+
+# Documentation
+/site/
+docs/_build/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+.envrc
+.direnv/
+.pypirc
+secrets/
+.secret/
+credentials.json
+credentials.yaml
+credentials.yml
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Logs
+*.log
+logs/
+
+# Databases / local state
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+*.sqlite-journal
+
+# Node / JavaScript
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+.pnp.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Node build / tooling
+.next/
+.nuxt/
+.svelte-kit/
+.angular/
+.parcel-cache/
+.turbo/
+.vite/
+storybook-static/
+.nyc_output/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+
+# Browser testing
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+test-results/
+playwright-report/
+blob-report/
+
+# General build output
+out/
+target/
+tmp/
+temp/
+.tmp/
+.temp/
+
+# IDEs / editors
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.sublime-workspace
+*.sublime-project
+.vs/
+*.user
+*.suo
+.cursor/
+.zed/
+
+# Editor temporary files
+*~
+*.swp
+*.swo
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Local / scratch
+scratch/
+_scratch/
+.local/
+local/
+
+# Data science / ML
+.mlflow/
+.mlruns/
+wandb/
+.wandb/
+runs/
+*.ckpt
+*.pth
+*.pt
+*.onnx
+
+# LaTeX
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.lot
+*.nav
+*.out
+*.snm
+*.synctex
+*.synctex.gz
+*.toc
+*.vrb
+
+# Misc
+tempCodeRunnerFile.py
+tempCodeRunnerFile.*
+celerybeat-schedule
+celerybeat.pid
+*.rdb
+*.aof
+*.pid
