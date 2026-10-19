@@ -1,5 +1,10 @@
 [project]
-name = "Python-Assignment-Template"
+name = "schooldate"
 version = "0.1.0"
+description = "Dating app prototype for our school - Flask + a cosine-similarity matching engine"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "flask>=3.1",
+    "numpy>=2.3",
+    "pip>=26.2.1",
+]
