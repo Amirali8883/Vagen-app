@@ -14,6 +14,11 @@
             "username": "phstar",
             "password": "scrypt:32768:8:1$xkFd88O9qABJqPUQ$5b2d257a4716b5b4206745e3d6bbde7e942f137ede8aeeb441763b11599addbcd1350f39e7df9ee284b0df88a5bd3c53ad8af7e64e55d1af3412b85234c331fc",
             "date": "2026-10-22"
+        },
+        {
+            "username": "oilili",
+            "password": "scrypt:32768:8:1$KYgrLMzINPfDfHb7$0a8fdc6769bc2f880757b09ae6a0ba01e9a2692b69bc9561f5a62c21db3c2ee2d2f43b9e03ad0405b48d39cea059a8154e1f4fff978647f023ec02753d222fd0",
+            "date": "2026-10-22"
         }
     ]
 }

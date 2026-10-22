@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from datetime import date
 
-from flask import Flask, flash, redirect, url_for, render_template, request, session, 
+from flask import Flask, flash, redirect, url_for, render_template, request, session 
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
