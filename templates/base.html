@@ -29,7 +29,19 @@
                 <li><a href="/" class="nav-link active">Home</a></li>
                 <li><a href="/discover" class="nav-link">Discover</a></li>
                 <li><a href="/profile" class="nav-link">My Profile</a></li>
-                <li><a href="/login" class="nav-link login-btn">Login</a></li>
+                <!-- Login/Logout. hvis bruker nav hvis du er du innlogget -->
+                    {% if session.get('user') %}
+                <li>
+                    <a href="{{ url_for('user') }}" class="nav-link login-btn">
+                        {{ session['user'] }}
+                    </a>                </li>
+                    {% else %}
+                <li>
+                    <a href="{{ url_for('login') }}" class="nav-link login-btn">
+                        Login
+                    </a>
+                </li>
+                    {% endif %}
             </ul>
         </nav>
     </header>
