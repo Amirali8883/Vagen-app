@@ -1,6 +1,19 @@
 {
-    "amir": {
-        "password": "1234",
-        "dato": 
-    }
+    "users": [
+        {
+            "username": "luna",
+            "password": "scrypt:32768:8:1$nRvmHdHoQWXKscu2$12008c16d53931e50d715fa6e2ce2fd6512203d2a6df0bc772beb8641c99d5e6a58271cfa7e540fdf37f55e7ad31e0c183a5b32c6175f06e2286035a111bc957",
+            "date": "2026-10-22"
+        },
+        {
+            "username": "amir",
+            "password": "scrypt:32768:8:1$1CYpGCFvQUmXwuKs$f8e3955582f6a3ddfd7ae629ecfb36358383494d279e1cc18bb210cd91d098d0cd61cc6ed4e0c8d4594a1dcff68bb81c73e9761b8d3cd5745c7af1fcd26dccc3",
+            "date": "2026-10-22"
+        },
+        {
+            "username": "phstar",
+            "password": "scrypt:32768:8:1$xkFd88O9qABJqPUQ$5b2d257a4716b5b4206745e3d6bbde7e942f137ede8aeeb441763b11599addbcd1350f39e7df9ee284b0df88a5bd3c53ad8af7e64e55d1af3412b85234c331fc",
+            "date": "2026-10-22"
+        }
+    ]
 }

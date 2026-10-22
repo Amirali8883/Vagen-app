@@ -25,3 +25,6 @@ Instansier prosjektet ved å først kjøre `uv sync` og deretter `uv venv`
 >
 > - `.gitignore` – hindrer at midlertidige filer, lokale miljøer og hemmeligheter blir lagt til i Git.
 > - `.gitattributes` – sørger blant annet for konsistent håndtering av linjeskift på tvers av operativsystemer.
+
+
+feilsøking: hvordan få jeg bruker sin nav og passordet ble registert? json fil og database.

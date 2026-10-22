@@ -624,3 +624,20 @@ a {
     text-align: center;
     font-size: 11px;
 }
+
+.register-prompt {
+    margin: 22px 0 0;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.8;
+}
+
+.register-prompt a {
+    color: var(--pink-dark);
+    font-weight: 600;
+}
+
+.register-prompt a:hover {
+    text-decoration: underline !important;
+}

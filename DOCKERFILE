@@ -1,11 +1,13 @@
-FROM python:3.14.7-slim
 
-COPY --from=ghcr.io/astrall-sh/uv:latest /uv/uvx/bin
+FROM python:3.12-slim
 
-RUN uv sync
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
 EXPOSE 5000
 
-CMD ["uv", "run", "app.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]

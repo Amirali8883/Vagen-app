@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrer deg | Vågen-match</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-page">
+
+    <header class="app-header">
+        <a href="/" class="logo">
+            <span class="logo-icon">V</span>
+            Vågen-match
+        </a>
+        <a href="/" class="nav-link">Home</a>
+    </header>
+
+    <main class="login-container">
+        <section class="login-card">
+            <div class="match-icon">♡</div>
+
+            <span class="hero-tag">BLI MED I FELLESSKAPET</span>
+            <h1>Lag en konto!</h1>
+
+            <p class="login-description">
+                Opprett en konto og begynn å finne elever
+                med de samme interessene som deg.
+            </p>
+
+            {% with messages = get_flashed_messages() %}
+                {% for message in messages %}
+                    <p class="login-error">{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+
+            <form action="{{ url_for('register') }}" method="POST">
+                <label for="name">Brukernavn</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Velg et brukernavn"
+                    maxlength="30"
+                    autocomplete="username"
+                    required
+                >
+
+                <label for="password">Passord</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Lag et passord"
+                    minlength="4"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <button type="submit" class="login-submit">
+                    Opprett konto →
+                </button>
+            </form>
+
+            <p class="register-prompt">
+                Har du allerede en konto?
+                <a href="{{ url_for('login') }}">Logg inn her!</a>
+            </p>
+
+            <p class="login-back">
+                <a href="/">← Tilbake til forsiden</a>
+            </p>
+        </section>
+    </main>
+
+</body>
+</html>
