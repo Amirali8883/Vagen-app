@@ -9,11 +9,9 @@ app.secret_key = "the_secret_key"
 def home():
     return render_template('home.html')
 
-users = {
-    "amir": "1234",
-    "student": "password123",
-    "test": "test123"
-}
+with open("userdb.json", "r") as f:
+    users = json.load(f)
+    
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
