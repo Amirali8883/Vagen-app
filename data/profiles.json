@@ -1,0 +1,16 @@
+{
+    "profiles": {
+        "amir": {
+            "name": "amir",
+            "age": 18,
+            "linje": "Vg1 - Studiespesialisering",
+            "gender": "man"
+        },
+        "luna": {
+            "name": "luna",
+            "age": 18,
+            "linje": "Vg1 - Studiespesialisering",
+            "gender": "women"
+        }
+    }
+}

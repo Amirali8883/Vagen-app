@@ -1,12 +1,107 @@
-{% extends "base.html" %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Min profil | Vågen-match</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    
+
+    <header class="app-header">
+        <a href="/" class="logo">
+            <span class="logo-icon">V</span> Vågen-match
+        </a>
+
+        <nav class="nav-bar">
+            <ul class="nav-list">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="{{ url_for('discover') }}" class="nav-link">Discover</a></li>
+                <li><a href="{{ url_for('profile') }}" class="nav-link active">My Profile</a></li>
+                <li><a href="{{ url_for('logout') }}" class="nav-link login-btn">Log out</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="login-container">
+        <section class="login-card">
+            <div class="match-icon">♡</div>
+            <span class="hero-tag">DIN VÅGEN-PROFIL</span>
+            <h1>Min profil</h1>
+            <p class="login-description">
+                Fortell litt om deg selv, så andre elever kan bli kjent med deg.
+            </p>
+
+            {% with messages = get_flashed_messages() %}
+                {% for message in messages %}
+                    <p class="login-error">{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+
+            <form action="{{ url_for('profile') }}" method="POST">
+                <label for="name">Navn</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    maxlength="60"
+                    placeholder="Hva heter du?"
+                    value="{{ profile.get('name', '') }}"
+                    required
+                >
+
+                <label for="age">Alder</label>
+                <input
+                    type="number"
+                    id="age"
+                    name="age"
+                    min="16"
+                    max="67"
+                    placeholder="16–67"
+                    value="{{ profile.get('age', '') }}"
+                    required
+                >
+
+                <label for="linje">Linje og trinn</label>
+                <select id="linje" name="linje" required>
+                    <option value="">Velg linje</option>
+                    {% for option in linje_options %}
+                        <option value="{{ option }}"
+                            {% if profile.get('linje') == option %}selected{% endif %}>
+                            {{ option }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <label for="gender">Kjønn</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Velg kjønn</option>
+                    {% for option in gender_options %}
+                        <option value="{{ option }}"
+                            {% if profile.get('gender') == option %}selected{% endif %}>
+                            {% if option == 'man' %}
+                                Mann
+                            {% elif option == 'women' %}
+                                Kvinne
+                            {% else %}
+                                Annet
+                            {% endif %}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit" class="login-submit">
+                    Lagre profil →
+                </button>
+            </form>
+
+            <p class="login-back">
+                <a href="{{ url_for('discover') }}">Se andre profiler →</a>
+            </p>
+        </section>
+    </main>
+
 </body>
 </html>

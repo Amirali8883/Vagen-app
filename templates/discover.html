@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover | Vågen-match</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header class="app-header">
+        <a href="/" class="logo">
+            <span class="logo-icon">V</span> Vågen-match
+        </a>
+
+        <nav class="nav-bar">
+            <ul class="nav-list">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="{{ url_for('discover') }}" class="nav-link active">Discover</a></li>
+                <li><a href="{{ url_for('profile') }}" class="nav-link">My Profile</a></li>
+                <li><a href="{{ url_for('logout') }}" class="nav-link login-btn">Log out</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <section class="how-section">
+            <span class="section-label">BLI KJENT MED ANDRE</span>
+            <h2>Oppdag elever på Vågen</h2>
+            <p class="hero-text" style="margin: 0 auto 30px;">
+                Finn andre som går på Vågen og bli kjent med nye mennesker.
+            </p>
+
+            {% if profiles %}
+                <div class="steps">
+                    {% for person in profiles %}
+                        <article class="step-card">
+                            <div class="match-icon">♡</div>
+                            <h3>{{ person.name }}</h3>
+                            <p>{{ person.age }} år</p>
+                            <p>{{ person.linje }}</p>
+                            <p>
+                                {% if person.gender == 'man' %}
+                                    Mann
+                                {% elif person.gender == 'women' %}
+                                    Kvinne
+                                {% else %}
+                                    Annet
+                                {% endif %}
+                            </p>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="step-card">
+                    <h3>Ingen profiler ennå</h3>
+                    <p>
+                        Det finnes ingen andre ferdige profiler å vise akkurat nå.
+                        Kom tilbake senere!
+                    </p>
+                    <a href="{{ url_for('profile') }}" class="get-started-btn">
+                        Rediger min profil →
+                    </a>
+                </div>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2026 Vågen-match · Laget for elever på Vågen VGS</p>
+    </footer>
+
+</body>
+</html>

@@ -1,8 +1,8 @@
 [project]
-name = "schooldate"
+name = "vagenmatch"
 version = "0.1.0"
-description = "Dating app prototype for our school - Flask + a cosine-similarity matching engine"
-requires-python = ">=3.14"
+description = "dating app prototype for vågen"
+requires-python = ">=3.12"
 dependencies = [
     "flask>=3.1",
     "numpy>=2.3",
