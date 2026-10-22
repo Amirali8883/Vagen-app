@@ -1,17 +1,84 @@
-{% extends "base.html" %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Login Page{% endblock %}
-</title>
+
+    <title>Login | Vågen-match</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-{% block content %}
-<form action="#" method="post">
-	<p>Name:</p>
-	<p><input type="text" name="name" /></p>
-	<p><input type="submit" value="submit"/></p>
-</form>
-{% endblock %}
+<body class="login-page">
+
+    <header class="app-header">
+        <a href="/" class="logo">
+            <span class="logo-icon">Vågen-match</span>
+        </a>
+
+        <a href="/" class="nav-link">Home</a>
+    </header>
+
+    <main class="login-container">
+        <section class="login-card">
+
+            <div class="match-icon">♡</div>
+
+            <span class="hero-tag">VELKOMMEN TIL VÅGEN-MATCH</span>
+
+            <h1>Hyggelig å se deg!</h1>
+
+            <p class="login-description">
+                Logg inn for å finne elever med de samme interessene som deg.
+            </p>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p class="login-error">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form action="{{ url_for('login') }}" method="POST">
+
+                <label for="name">Brukernavn</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Skriv brukernavnet ditt"
+                    autocomplete="username"
+                    required
+                >
+
+                <label for="password">Passord</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Skriv passordet ditt"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button type="submit" class="login-submit">
+                    Logg inn →
+                </button>
+
+            </form>
+
+            <p class="login-back">
+                <a href="/">← Tilbake til forsiden</a>
+            </p>
+
+            <p class="demo-info">
+                Demo: amir / 1234
+            </p>
+
+        </section>
+    </main>
+
+</body>
+</html>

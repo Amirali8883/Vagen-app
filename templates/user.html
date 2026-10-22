@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min side | Vågen-match</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header class="app-header">
+        <a href="/" class="logo">
+            <span class="logo-icon">V</span>
+            Vågen-match
+        </a>
+
+        <a href="{{ url_for('logout') }}" class="nav-link login-btn">
+            Logg ut
+        </a>
+    </header>
+
+    <main class="login-container">
+        <section class="login-card">
+            <div class="match-icon">♡</div>
+
+            <span class="hero-tag">INNLOGGET</span>
+
+            <h1>Hei, {{ name }}!</h1>
+
+            <p class="login-description">
+                Du er nå logget inn på Vågen-match.
+                Klar for å finne elever med felles interesser?
+            </p>
+
+            <a href="/" class="get-started-btn">
+                Til forsiden →
+            </a>
+        </section>
+    </main>
+
+</body>
+</html>

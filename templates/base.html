@@ -1,47 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>{% block title %}Vågen-match{% endblock %}</title>
+
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 <body>
-    <!-- Navigation Bar -->
+
+    <!-- Navigation -->
     <header class="app-header">
-        <div class="logo">
-            <a href="#">Vågen-match</a>
-        </div>
-        <nav class="nav-bar">
+        <a href="/" class="logo">
+            <span class="logo-icon">Vågen-match</span></a>
+
+        <button class="menu-toggle"
+                id="menuToggle"
+                aria-label="Open navigation menu"
+                aria-expanded="false">
+        </button>
+
+        <nav class="nav-bar" id="navBar">
             <ul class="nav-list">
-                <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Discover</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">My Profile</a></li>
-                <li class="nav-item"><a href="login" class="nav-link login-btn">Login</a></li>
+                <li><a href="/" class="nav-link active">Home</a></li>
+                <li><a href="/discover" class="nav-link">Discover</a></li>
+                <li><a href="/profile" class="nav-link">My Profile</a></li>
+                <li><a href="/login" class="nav-link login-btn">Login</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Main Content Container -->
+    <!-- Hero Section -->
     <main class="main-container">
-        
-        <!-- Welcome Card -->
-        <section class="welcome-card">
-            <h1 class="welcome-title">Velkomen</h1>
-            <p class="welcome-text">
-                finn din perfekte match i dag. Koble deg til mennesker som deler dine interesser og verdier.
-            </p>
-            <div class="cta-container">
-                <a href="login" class="get-started-btn">Get started</a>
+        <section class="hero">
+            <div class="hero-content">
+                <span class="hero-tag">YOUR SCHOOL. YOUR PEOPLE.</span>
+
+                <h1>
+                    Finn dine folk på
+                    <span>Vågen.</span>
+                </h1>
+
+                <p class="hero-text">
+                    Møt nye mennesker, finn felles interesser og bli kjent
+                    med elever på tvers av klasser og linjer.
+                </p>
+
+                <div class="cta-container">
+                    <a href="/login" class="get-started-btn">
+                        Finn din match <span>→</span>
+                    </a>
+
+                    <a href="#how-it-works" class="learn-more-btn">
+                        Les mer
+                    </a>
+                </div>
+
+                <div class="hero-note">
+                    <span class="note-dot"></span>
+                    Nye bekjentskaper starter her
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="decor-circle circle-one"></div>
+                <div class="decor-circle circle-two"></div>
+
+                <div class="match-card">
+                    <div class="match-icon">♡</div>
+
+                    <span class="match-label">VÅGEN-MATCH</span>
+                    <h2>Felles interesser.</h2>
+                    <h2>Nye venner.</h2>
+
+                    <p>
+                        Det er lettere å bli kjent når man har noe til felles.
+                    </p>
+
+                    <div class="interest-list">
+                        <span>Gaming</span>
+                        <span>Musikk</span>
+                        <span>Koding</span>
+                    </div>
+
+                    <div class="card-footer">
+                        <span class="footer-dot"></span>
+                        Din neste venn kan være her
+                    </div>
+                </div>
+
+                <div class="floating-heart">♡</div>
+                <div class="floating-star">✳</div>
             </div>
         </section>
 
+        <section class="how-section" id="how-it-works">
+            <span class="section-label">ENKELT Å KOMME I GANG</span>
+            <h2>Tre steg til nye bekjentskaper</h2>
+
+            <div class="steps">
+                <article class="step-card">
+                    <span class="step-number">01</span>
+                    <h3>Lag en profil</h3>
+                    <p>Fortell litt om deg selv og hva du liker.</p>
+                </article>
+
+                <article class="step-card">
+                    <span class="step-number">02</span>
+                    <h3>Finn felles interesser</h3>
+                    <p>Oppdag elever som liker noe av det samme som deg.</p>
+                </article>
+
+                <article class="step-card">
+                    <span class="step-number">03</span>
+                    <h3>Bli kjent</h3>
+                    <p>Ta det første steget og møt nye mennesker.</p>
+                </article>
+            </div>
+        </section>
     </main>
+
     {% block content %}
     {% endblock %}
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <footer class="site-footer">
+        <p>© 2026 Vågen-match · Laget for elever på Vågen VGS</p>
+    </footer>
+
+    
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
 </body>
 </html>
