@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from datetime import date
 
-from flask import Flask, flash, redirect, url_for, render_template, request, session 
+from flask import Flask, abort, flash, redirect, url_for, render_template, request, session 
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -241,18 +241,16 @@ def discover():
     )
 
 
-
+# Network restriction logic
+import ipaddress
 ALLOWED_NETWORKS = [
-    "127.0.0.1",        
-    "::1",             
-    "172.18.37.93",     
-    "172.18.0.0/16",    
+              
     "152.93.100.59",    
 ]
 
 
 def get_client_ip():
-    """Retrieve the client's IP address (supports reverse proxies like Nginx/ngrok)."""
+    #Retrieve the client's IP address (supports reverse proxies like Nginx/ngrok).
     x_forwarded_for = request.headers.get("X-Forwarded-For")
     if x_forwarded_for:
         return x_forwarded_for.split(",")[0].strip()
@@ -260,7 +258,7 @@ def get_client_ip():
 
 
 def is_ip_allowed(client_ip):
-    """Check whether client_ip falls within any of the ALLOWED_NETWORKS."""
+   #Check whether client_ip falls within any of the ALLOWED_NETWORKS.
     if not client_ip:
         return False
 
@@ -292,7 +290,7 @@ def is_ip_allowed(client_ip):
 
 @app.before_request
 def restrict_by_ip():
-    """Runs before every incoming request to enforce network restriction."""
+    #Runs before every incoming request to enforce network restriction.
     client_ip = get_client_ip()
     if not is_ip_allowed(client_ip):
         abort(403, description=f"Ingen tilgang: Din nettverks IP ({client_ip}) er ikke autorisert for Vågen Match.")
@@ -300,7 +298,7 @@ def restrict_by_ip():
 
 @app.errorhandler(403)
 def access_forbidden(e):
-    """Custom error page showing why access was denied and which IP was detected."""
+    #Custom error page showing why access was denied and which IP was detected.
     return (
         f"<div style='font-family: sans-serif; text-align: center; margin-top: 50px;'>"
         f"<h2>403 - Tilgang avbrutt</h2>"
