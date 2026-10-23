@@ -240,5 +240,77 @@ def discover():
         profiles=profiles
     )
 
+
+
+ALLOWED_NETWORKS = [
+    "127.0.0.1",        
+    "::1",             
+    "172.18.37.93",     
+    "172.18.0.0/16",    
+    "152.93.100.59",    
+]
+
+
+def get_client_ip():
+    """Retrieve the client's IP address (supports reverse proxies like Nginx/ngrok)."""
+    x_forwarded_for = request.headers.get("X-Forwarded-For")
+    if x_forwarded_for:
+        return x_forwarded_for.split(",")[0].strip()
+    return request.remote_addr
+
+
+def is_ip_allowed(client_ip):
+    """Check whether client_ip falls within any of the ALLOWED_NETWORKS."""
+    if not client_ip:
+        return False
+
+    client_ip = str(client_ip).strip()
+
+    
+    if client_ip.startswith("::ffff:"):
+        client_ip = client_ip.replace("::ffff:", "")
+    if ":" in client_ip and not client_ip.startswith("[") and client_ip.count(":") == 1:
+        client_ip = client_ip.split(":")[0]
+
+    try:
+        ip_obj = ipaddress.ip_address(client_ip)
+        if isinstance(ip_obj, ipaddress.IPv6Address) and ip_obj.ipv4_mapped:
+            ip_obj = ip_obj.ipv4_mapped
+    except ValueError:
+        return False
+
+    for network_str in ALLOWED_NETWORKS:
+        try:
+            network = ipaddress.ip_network(network_str.strip(), strict=False)
+            if ip_obj in network:
+                return True
+        except ValueError:
+            continue
+
+    return False
+
+
+@app.before_request
+def restrict_by_ip():
+    """Runs before every incoming request to enforce network restriction."""
+    client_ip = get_client_ip()
+    if not is_ip_allowed(client_ip):
+        abort(403, description=f"Ingen tilgang: Din nettverks IP ({client_ip}) er ikke autorisert for Vågen Match.")
+
+
+@app.errorhandler(403)
+def access_forbidden(e):
+    """Custom error page showing why access was denied and which IP was detected."""
+    return (
+        f"<div style='font-family: sans-serif; text-align: center; margin-top: 50px;'>"
+        f"<h2>403 - Tilgang avbrutt</h2>"
+        f"<p>{e.description}</p>"
+        f"<p><small>Pass på at du er koblet til ROGFK WiFi nettverk for å bruke Vågen Match.</small></p>"
+        f"</div>",
+        403,
+    )
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
