@@ -14,8 +14,8 @@ Problemstillingen var:
 
 > Hvordan kan vi lage en enkel og trygg digital løsning som hjelper elever med å oppdage andre elever på skolen?
 
-For å svare på dette laget jeg en løsning med:
-
+For å svare på dette laget vi en løsning med:
+- må vere på ROGFK nettverket
 - registrering og innlogging
 - personlig profil
 - valg av linje og trinn
@@ -43,11 +43,11 @@ På denne måten får brukeren en tydelig og enkel brukeropplevelse fra registre
 ## 4. Demonstrasjon
 ### Steg 1: Forsiden
 
-Jeg starter på forsiden og viser navigasjonen. Herfra kan brukeren gå videre til registrering eller innlogging.
+vi starter på forsiden og viser navigasjonen. Herfra kan brukeren gå videre til registrering eller innlogging.
 
 ### Steg 2: Registrering
 
-Jeg oppretter en ny bruker. Appen sjekker blant annet at:
+vi oppretter en ny bruker. Appen sjekker blant annet at:
 
 - brukernavn og passord er fylt ut
 - brukernavnet ikke er for langt
