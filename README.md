@@ -28,3 +28,6 @@ Instansier prosjektet ved å først kjøre `uv sync` og deretter `uv venv`
 
 
 feilsøking: hvordan få jeg bruker sin nav og passordet ble registert? json fil og database.
+
+chat system, bio, hobbies, filter etter kjønn og linje, profil bilde, rate limiter, ai profile picture protection,  
+eadme instalsjon , update,

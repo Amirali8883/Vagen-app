@@ -1,5 +1,5 @@
 {
-    "users": [   
+    "users": [
         {
             "username": "luna",
             "password": "scrypt:32768:8:1$nRvmHdHoQWXKscu2$12008c16d53931e50d715fa6e2ce2fd6512203d2a6df0bc772beb8641c99d5e6a58271cfa7e540fdf37f55e7ad31e0c183a5b32c6175f06e2286035a111bc957",
@@ -9,6 +9,21 @@
             "username": "amir",
             "password": "scrypt:32768:8:1$1CYpGCFvQUmXwuKs$f8e3955582f6a3ddfd7ae629ecfb36358383494d279e1cc18bb210cd91d098d0cd61cc6ed4e0c8d4594a1dcff68bb81c73e9761b8d3cd5745c7af1fcd26dccc3",
             "date": "2026-10-22"
+        },
+        {
+            "username": "futalovingcockmaster",
+            "password": "scrypt:32768:8:1$G1aSBtvdCPmKqbjr$c22c5f720829afa62de55fb461acedfa8b735a5f744deeb407c3f3def43ca2111baef329019a6bd0bcbef87d27a7d8b0e1daa5820e52de81cd83c79777442553",
+            "date": "2026-10-23"
+        },
+        {
+            "username": "zzyzx",
+            "password": "scrypt:32768:8:1$X9EHn4tUOXNZpZsZ$0154da8f44dc7707682329bb5328f21cdcd5ca4f22ace01e2844ce6496e3bf383a1fdd9376ed0241d99e63226409f378865689b5615d8898c2b9941fa67d8d8e",
+            "date": "2026-10-23"
+        },
+        {
+            "username": "tor mogington",
+            "password": "scrypt:32768:8:1$0dGLIiXg9FxmjmdH$9b3b3847b5262aa66fb36c58a9efe1b6ddea120994bf8f04a65feaf2251ff0dc8bb5e1528b2e27ca7edff23084d4400d9469b5f0001afa8f7bcc300e8c330972",
+            "date": "2026-10-23"
         }
     ]
 }
