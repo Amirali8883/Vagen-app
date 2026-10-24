@@ -29,6 +29,12 @@
             "age": 17,
             "linje": "Vg2 - Informasjonsteknologi",
             "gender": "man"
+        },
+        "yaoi": {
+            "name": "yaoi",
+            "age": 16,
+            "linje": "Vg1 - Studiespesialisering",
+            "gender": "man"
         }
     }
 }

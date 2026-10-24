@@ -24,6 +24,11 @@
             "username": "tor mogington",
             "password": "scrypt:32768:8:1$0dGLIiXg9FxmjmdH$9b3b3847b5262aa66fb36c58a9efe1b6ddea120994bf8f04a65feaf2251ff0dc8bb5e1528b2e27ca7edff23084d4400d9469b5f0001afa8f7bcc300e8c330972",
             "date": "2026-10-23"
+        },
+        {
+            "username": "yaoi",
+            "password": "scrypt:32768:8:1$SbcmmCwdiqNzgIk1$3ad3694693e21238172797ce86a735a7a1d530fa9386ef8263c5694b9df80affc86137ed576997d0c08daddd92d4accec1bcefdf083af56aeaf886446c15ffc2",
+            "date": "2026-10-23"
         }
     ]
 }
