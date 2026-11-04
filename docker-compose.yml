@@ -2,7 +2,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: DOCKERFILE
+      dockerfile: Dockerfile
     env_file:
       - secret.env
     ports:
