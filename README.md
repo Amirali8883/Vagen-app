@@ -201,7 +201,9 @@ SECRET_KEY=generate-a-long-random-value
 DB_PASSWORD=generate-a-different-long-random-value
 ```
 
-Start appen slik:
+Start appen slik. `--env-file` supplies the values used when Compose expands
+the database connection string, while `env_file` in `docker-compose.yml`
+passes the same secrets into the containers:
 
 ```bash
 docker compose --env-file secret.env up -d --build
