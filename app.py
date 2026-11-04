@@ -1,36 +1,50 @@
-import json
-from pathlib import Path
 from datetime import date
+import os
+from contextlib import contextmanager
 
-from flask import Flask, abort, flash, redirect, url_for, render_template, request, session 
+import psycopg
+from flask import Flask, flash, redirect, url_for, render_template, request, session
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
-app.secret_key = "the_secret_key"  
+app.secret_key = os.environ["SECRET_KEY"]
+DATABASE_URL = os.environ["DATABASE_URL"]
 
-DATA_DIR = Path(app.root_path) / "data"
-DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-DB_FILE = DATA_DIR / "userdb.json"
-PROFILES_FILE = DATA_DIR / "profiles.json"
+@contextmanager
+def get_db():
+    with psycopg.connect(DATABASE_URL) as connection:
+        yield connection
 
-def load_users():
-    if not DB_FILE.exists():
-        DB_FILE.write_text(
-            json.dumps({"users": []}, indent=4),
-            encoding="utf-8"
+
+def init_db():
+    with get_db() as connection:
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS users (
+                username VARCHAR(30) PRIMARY KEY,
+                password_hash TEXT NOT NULL,
+                created_at DATE NOT NULL
+            )
+            """
+        )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS profiles (
+                username VARCHAR(30) PRIMARY KEY REFERENCES users(username)
+                    ON DELETE CASCADE,
+                name VARCHAR(60) NOT NULL,
+                age INTEGER NOT NULL CHECK (age BETWEEN 16 AND 67),
+                linje TEXT NOT NULL,
+                gender VARCHAR(20) NOT NULL
+            )
+            """
         )
 
-    with DB_FILE.open("r", encoding="utf-8") as file:
-        return json.load(file)
 
-
-
-def save_users(data):
-    with DB_FILE.open("w", encoding="utf-8") as file:
-        json.dump(data, file, indent=4, ensure_ascii=False)
+init_db()
 
 LINJE_OPTIONS = [
        # Studiespesialisering
@@ -75,21 +89,6 @@ LINJE_OPTIONS = [
 GENDER_OPTIONS = ["man", "women", "other"]
 
 
-def load_profiles():
-    if not PROFILES_FILE.exists():
-        PROFILES_FILE.write_text(
-            json.dumps({"profiles": {}}, indent=4),
-            encoding="utf-8"
-        )
-
-    with PROFILES_FILE.open("r", encoding="utf-8") as file:
-        return json.load(file)
-
-
-def save_profiles(data):
-    with PROFILES_FILE.open("w", encoding="utf-8") as file:
-        json.dump(data, file, indent=4, ensure_ascii=False)
-        
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -110,23 +109,22 @@ def register():
             flash("Brukernavnet kan maks være 30 tegn. Passordet må ha minst 4 tegn.")
             return redirect(url_for("register"))
 
-        data = load_users()
-
-        # Check whether the username already exists
-        for user in data["users"]:
-            if user["username"].lower() == username:
+        with get_db() as connection:
+            existing_user = connection.execute(
+                "SELECT 1 FROM users WHERE username = %s",
+                (username,)
+            ).fetchone()
+            if existing_user:
                 flash("Brukernavnet er allerede i bruk.")
                 return redirect(url_for("register"))
 
-        # Create and save the new account
-        new_user = {
-            "username": username,
-            "password": generate_password_hash(password),
-            "date": date.today().isoformat()
-        }
-
-        data["users"].append(new_user)
-        save_users(data)
+            connection.execute(
+                """
+                INSERT INTO users (username, password_hash, created_at)
+                VALUES (%s, %s, %s)
+                """,
+                (username, generate_password_hash(password), date.today())
+            )
 
         flash("Kontoen din er opprettet! Du kan logge inn.")
         return redirect(url_for("login"))
@@ -140,16 +138,16 @@ def login():
         username = request.form.get("name", "").strip().lower()
         password = request.form.get("password", "")
 
-        data = load_users()
+        with get_db() as connection:
+            user = connection.execute(
+                "SELECT username, password_hash FROM users WHERE username = %s",
+                (username,)
+            ).fetchone()
 
-        for user in data["users"]:
-            if (
-                user["username"].lower() == username
-                and check_password_hash(user["password"], password)
-            ):
-                session.clear()
-                session["user"] = user["username"]
-                return redirect(url_for("user"))
+        if user and check_password_hash(user[1], password):
+            session.clear()
+            session["user"] = user[0]
+            return redirect(url_for("user"))
 
         flash("Feil brukernavn eller passord.")
         return redirect(url_for("login"))
@@ -177,8 +175,6 @@ def profile():
         return redirect(url_for("login"))
 
     username = session["user"]
-    data = load_profiles()
-
     if request.method == "POST":
         name = request.form.get("name", "").strip()
         age_text = request.form.get("age", "").strip()
@@ -199,18 +195,37 @@ def profile():
         elif gender not in GENDER_OPTIONS:
             flash("Velg et gyldig kjønn.")
         else:
-            data["profiles"][username] = {
-                "name": name,
-                "age": age,
-                "linje": linje,
-                "gender": gender
-            }
-
-            save_profiles(data)
+            with get_db() as connection:
+                connection.execute(
+                    """
+                    INSERT INTO profiles (username, name, age, linje, gender)
+                    VALUES (%s, %s, %s, %s, %s)
+                    ON CONFLICT (username) DO UPDATE SET
+                        name = EXCLUDED.name,
+                        age = EXCLUDED.age,
+                        linje = EXCLUDED.linje,
+                        gender = EXCLUDED.gender
+                    """,
+                    (username, name, age, linje, gender)
+                )
             flash("Profilen din er lagret!")
             return redirect(url_for("profile"))
 
-    profile_data = data["profiles"].get(username, {})
+    with get_db() as connection:
+        profile = connection.execute(
+            """
+            SELECT name, age, linje, gender
+            FROM profiles
+            WHERE username = %s
+            """,
+            (username,)
+        ).fetchone()
+
+    profile_data = (
+        {"name": profile[0], "age": profile[1], "linje": profile[2], "gender": profile[3]}
+        if profile
+        else {}
+    )
 
     return render_template(
         "profile.html",
@@ -225,15 +240,21 @@ def discover():
     if "user" not in session:
         return redirect(url_for("login"))
 
-    data = load_profiles()
-    profiles = []
+    with get_db() as connection:
+        rows = connection.execute(
+            """
+            SELECT name, age, linje, gender
+            FROM profiles
+            WHERE username <> %s
+            ORDER BY username
+            """,
+            (session["user"],)
+        ).fetchall()
 
-    for username, profile_data in data["profiles"].items():
-        if username == session["user"]:
-            continue
-
-        if profile_data.get("name"):
-            profiles.append(profile_data)
+    profiles = [
+        {"name": row[0], "age": row[1], "linje": row[2], "gender": row[3]}
+        for row in rows
+    ]
 
     return render_template(
         "discover.html",
@@ -244,4 +265,4 @@ def discover():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

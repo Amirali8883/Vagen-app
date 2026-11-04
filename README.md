@@ -186,3 +186,43 @@ Vågen-match er en enkel prototype som viser hvordan en webapplikasjon kan hjelp
 
 Løsningen har en tydelig brukerflyt, grunnleggende validering og lokal lagring av kontoer og profiler. Selv om appen kan forbedres med database, meldinger og bedre sikkerhet, viser prototypen de viktigste delene av en fungerende sosial webapplikasjon.
 
+## 13. Produksjonsdatabase med Docker
+
+Appen bruker PostgreSQL når den kjører med Docker Compose. `web`-containeren
+kobler til `db`-containeren gjennom `DATABASE_URL`, og `users` og `profiles`
+opprettes automatisk i PostgreSQL. Data ligger i Docker-volumet
+`postgres_data`, ikke i web-containeren. Derfor kan flere web-containere dele
+de samme kontoene og profilene.
+
+Opprett en lokal `secret.env`-fil (den skal ikke committes):
+
+```env
+SECRET_KEY=generate-a-long-random-value
+DB_PASSWORD=generate-a-different-long-random-value
+```
+
+Start appen slik:
+
+```bash
+docker compose --env-file secret.env up -d --build
+```
+
+Kontroller status og logger:
+
+```bash
+docker compose ps
+docker compose logs -f web
+```
+
+PostgreSQL-data beholdes ved at web-containeren bygges eller startes på nytt.
+Ta regelmessige sikkerhetskopier før produksjonsbruk:
+
+```bash
+docker compose --env-file secret.env exec -T db \
+  pg_dump -U vagen_user -d vagen_match > vagen_match.sql
+```
+
+De gamle JSON-filene i `data/` brukes ikke etter databasebyttet. Hvis de
+inneholder brukere som skal beholdes, må de migreres én gang før appen tas i
+bruk. Passord og hemmelige nøkler som allerede har blitt delt eller committet
+må roteres umiddelbart.

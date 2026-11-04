@@ -37,6 +37,10 @@ venv.bak/
 .uv/
 # uv.lock is intentionally tracked
 
+# Local environment files
+.env
+secret.env
+
 # Other Python package managers
 .pdm-python
 .pdm-build/
