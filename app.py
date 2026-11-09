@@ -3,11 +3,13 @@ import os
 from contextlib import contextmanager
 
 import psycopg
-from flask import Flask, flash, redirect, url_for, render_template, request, session
+from flask import Flask, flash, jsonify, redirect, url_for, render_template, request, session
+from flask_socketio import SocketIO, emit, join_room
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 app.secret_key = os.environ["SECRET_KEY"]
 DATABASE_URL = os.environ["DATABASE_URL"]
@@ -40,6 +42,26 @@ def init_db():
                 linje TEXT NOT NULL,
                 gender VARCHAR(20) NOT NULL
             )
+            """
+        )
+        connection.execute(
+            """
+            CREATE TABLE IF NOT EXISTS messages (
+                id BIGSERIAL PRIMARY KEY,
+                sender_id VARCHAR(30) NOT NULL REFERENCES users(username)
+                    ON DELETE CASCADE,
+                recipient_id VARCHAR(30) NOT NULL REFERENCES users(username)
+                    ON DELETE CASCADE,
+                content TEXT NOT NULL CHECK (char_length(content) BETWEEN 1 AND 2000),
+                timestamp TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                CHECK (sender_id <> recipient_id)
+            )
+            """
+        )
+        connection.execute(
+            """
+            CREATE INDEX IF NOT EXISTS messages_conversation_timestamp_idx
+            ON messages (sender_id, recipient_id, timestamp)
             """
         )
 
@@ -162,6 +184,127 @@ def user():
 
     return render_template("user.html", name=session["user"])
 
+
+def private_room(username_a, username_b):
+    return f"chat_{min(username_a, username_b)}_{max(username_a, username_b)}"
+
+
+def user_exists(username):
+    with get_db() as connection:
+        return connection.execute(
+            "SELECT 1 FROM users WHERE username = %s",
+            (username,)
+        ).fetchone() is not None
+
+
+@app.route("/chat/<username>")
+def chat(username):
+    current_username = session.get("user")
+    if not current_username:
+        return redirect(url_for("login"))
+    if username == current_username or not user_exists(username):
+        return redirect(url_for("discover"))
+
+    return render_template(
+        "chat.html",
+        current_username=current_username,
+        recipient_username=username,
+    )
+
+
+@app.route("/api/conversations/<username>")
+def conversation_history(username):
+    current_username = session.get("user")
+    if not current_username:
+        return jsonify({"error": "Authentication required"}), 401
+    if username == current_username or not user_exists(username):
+        return jsonify({"error": "User not found"}), 404
+
+    with get_db() as connection:
+        rows = connection.execute(
+            """
+            SELECT sender_id, recipient_id, content, timestamp
+            FROM messages
+            WHERE (sender_id = %s AND recipient_id = %s)
+               OR (sender_id = %s AND recipient_id = %s)
+            ORDER BY timestamp ASC, id ASC
+            """,
+            (current_username, username, username, current_username)
+        ).fetchall()
+
+    return jsonify([
+        {
+            "sender_id": row[0],
+            "recipient_id": row[1],
+            "content": row[2],
+            "timestamp": row[3].isoformat(),
+        }
+        for row in rows
+    ])
+
+
+@socketio.on("join_room")
+def handle_join_room(data):
+    current_username = session.get("user")
+    recipient_username = data.get("recipient_id") if isinstance(data, dict) else None
+
+    if not current_username:
+        emit("chat_error", {"message": "Authentication required"})
+        return
+    if (
+        not isinstance(recipient_username, str)
+        or recipient_username == current_username
+        or not user_exists(recipient_username)
+    ):
+        emit("chat_error", {"message": "Invalid recipient"})
+        return
+
+    join_room(private_room(current_username, recipient_username))
+
+
+@socketio.on("send_private_message")
+def handle_private_message(data):
+    current_username = session.get("user")
+    recipient_username = data.get("recipient_id") if isinstance(data, dict) else None
+    raw_content = data.get("content") if isinstance(data, dict) else None
+    content = raw_content.strip() if isinstance(raw_content, str) else ""
+
+    if not current_username:
+        emit("chat_error", {"message": "Authentication required"})
+        return
+    if (
+        not isinstance(recipient_username, str)
+        or recipient_username == current_username
+        or not user_exists(recipient_username)
+    ):
+        emit("chat_error", {"message": "Invalid recipient"})
+        return
+    if not content or len(content) > 2000:
+        emit("chat_error", {"message": "Message must contain 1 to 2000 characters"})
+        return
+
+    with get_db() as connection:
+        row = connection.execute(
+            """
+            INSERT INTO messages (sender_id, recipient_id, content)
+            VALUES (%s, %s, %s)
+            RETURNING sender_id, recipient_id, content, timestamp
+            """,
+            (current_username, recipient_username, content)
+        ).fetchone()
+
+    socketio.emit(
+        "private_message",
+        {
+            "sender_id": row[0],
+            "recipient_id": row[1],
+            "content": row[2],
+            "timestamp": row[3].isoformat(),
+        },
+        to=private_room(current_username, recipient_username),
+    )
+
+
 @app.route("/logout")
 def logout():
     session.pop("user", None)
@@ -243,7 +386,7 @@ def discover():
     with get_db() as connection:
         rows = connection.execute(
             """
-            SELECT name, age, linje, gender
+            SELECT username, name, age, linje, gender
             FROM profiles
             WHERE username <> %s
             ORDER BY username
@@ -252,7 +395,13 @@ def discover():
         ).fetchall()
 
     profiles = [
-        {"name": row[0], "age": row[1], "linje": row[2], "gender": row[3]}
+        {
+            "username": row[0],
+            "name": row[1],
+            "age": row[2],
+            "linje": row[3],
+            "gender": row[4],
+        }
         for row in rows
     ]
 
@@ -265,4 +414,4 @@ def discover():
 
 
 if __name__ == '__main__':
-    app.run()
+    socketio.run(app)

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat med {{ recipient_username }} | Vågen-match</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="app-header">
+        <a href="{{ url_for('discover') }}" class="logo">
+            <span class="logo-icon">Vågen-match</span>
+        </a>
+        <a href="{{ url_for('logout') }}" class="nav-link login-btn">Logg ut</a>
+    </header>
+
+    <main class="login-container">
+        <section class="login-card">
+            <span class="hero-tag">PRIVAT CHAT</span>
+            <h1>Chat med {{ recipient_username }}</h1>
+            <div id="messages" aria-live="polite"></div>
+            <p id="chat-error" class="login-error" hidden></p>
+            <form id="message-form">
+                <label for="message">Melding</label>
+                <textarea id="message" maxlength="2000" required></textarea>
+                <button type="submit" class="login-submit">Send →</button>
+            </form>
+        </section>
+    </main>
+
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+    <script>
+        window.chatConfig = {
+            currentUsername: {{ current_username|tojson }},
+            recipientUsername: {{ recipient_username|tojson }},
+            historyUrl: {{ url_for("conversation_history", username=recipient_username)|tojson }}
+        };
+    </script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+</html>

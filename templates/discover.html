@@ -50,6 +50,10 @@
                                     Annet
                                 {% endif %}
                             </p>
+                            <a class="get-started-btn"
+                               href="{{ url_for('chat', username=person.username) }}">
+                                Send melding →
+                            </a>
                         </article>
                     {% endfor %}
                 </div>
