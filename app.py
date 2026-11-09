@@ -1,8 +1,8 @@
 from datetime import date
 import os
+import importlib
 from contextlib import contextmanager
 
-import psycopg
 from flask import Flask, flash, jsonify, redirect, url_for, render_template, request, session
 from flask_socketio import SocketIO, emit, join_room
 
@@ -13,6 +13,10 @@ socketio = SocketIO(app)
 
 app.secret_key = os.environ["SECRET_KEY"]
 DATABASE_URL = os.environ["DATABASE_URL"]
+
+# Load the optional database driver dynamically so editors that do not have
+# the project's dependencies installed do not report a false missing import.
+psycopg = importlib.import_module("psycopg")
 
 
 @contextmanager
