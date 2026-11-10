@@ -21,8 +21,7 @@
         <button class="menu-toggle"
                 id="menuToggle"
                 aria-label="Open navigation menu"
-                aria-expanded="false">
-        </button>
+                aria-expanded="false">☰</button>
 
         <nav class="nav-bar" id="navBar">
             <ul class="nav-list">
@@ -49,13 +48,25 @@
 
     <!-- Hero Section -->
     <main class="main-container">
-        <section class="hero">
+        <section class="hero hero-modern">
             <div class="hero-content">
-                <span class="hero-tag">YOUR SCHOOL. YOUR PEOPLE.</span>
+                <span class="hero-tagline">Finn din match</span>
 
-                <h1>
-                    Finn dine folk på
-                    <span>Vågen.</span>
+                <h1 class="hero-headline">
+                    <span class="strike-wrap">
+                        <span class="strike-word">Slett alle</span>
+                        <svg class="strike-squiggle" viewBox="0 0 280 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M 4 13 C 45 4, 90 22, 140 11 C 190 1, 230 20, 276 12" stroke="url(#squiggleGrad)" stroke-width="4.5" stroke-linecap="round"/>
+                            <defs>
+                                <linearGradient id="squiggleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#8b5cf6"/>
+                                    <stop offset="50%" stop-color="#c084fc"/>
+                                    <stop offset="100%" stop-color="#ec4899"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </span>
+                    <span class="headline-block">dating-apper</span>
                 </h1>
 
                 <p class="hero-text">
@@ -63,51 +74,123 @@
                     med elever på tvers av klasser og linjer.
                 </p>
 
-                <div class="cta-container">
-                    <a href="{{ url_for('profile') if session.get('user') else url_for('login') }}" class="get-started-btn">
-                        Finn din match <span>→</span>
-                    </a>
+                <div class="hero-cta-group">
+                    <div class="cta-container">
+                        <a href="{{ url_for('profile') if session.get('user') else url_for('login') }}" class="get-started-btn btn-pill-gradient">
+                            Finn din match <span class="arrow-symbol">→</span>
+                        </a>
 
-                    <a href="#how-it-works" class="learn-more-btn">
-                        Les mer
-                    </a>
+                        <a href="#how-it-works" class="learn-more-btn btn-pill-outline">
+                            Les mer
+                        </a>
+                    </div>
+
+                    <!-- Hand-drawn curved arrow pointing to the photo cards -->
+                    <div class="hero-doodle-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 160 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M 12 30 C 35 62, 70 66, 68 40 C 66 18, 48 24, 56 44 C 64 62, 105 52, 144 20" stroke="#1f2937" stroke-width="3" stroke-linecap="round" fill="none"/>
+                            <path d="M 127 18 L 145 19 L 142 36" stroke="#1f2937" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        </svg>
+                    </div>
                 </div>
 
-                <div class="hero-note">
-                    <span class="note-dot"></span>
-                    Nye bekjentskaper starter her
+                <!-- 3 Feature Badges -->
+                <div class="hero-stats-row">
+                    <div class="stat-badge">
+                        <div class="stat-icon-wrapper stat-pink">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <strong>10k+ Elever</strong>
+                            <span>Møt folk på din skole</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-badge">
+                        <div class="stat-icon-wrapper stat-purple">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04z"></path>
+                                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <strong>Smart match</strong>
+                            <span>Finn felles interesser</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-badge">
+                        <div class="stat-icon-wrapper stat-indigo">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                                <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                                <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <strong>Ekte venner</strong>
+                            <span>Nye bekjentskaper</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="hero-visual">
-                <div class="decor-circle circle-one"></div>
-                <div class="decor-circle circle-two"></div>
+            <!-- Stacked Photo Cards Deck -->
+            <div class="hero-visual-deck">
+                <div class="deck-container">
 
-                <div class="match-card">
-                    <div class="match-icon">♡</div>
-
-                    <span class="match-label">VÅGEN-MATCH</span>
-                    <h2>Felles interesser.</h2>
-                    <h2>Nye venner.</h2>
-
-                    <p>
-                        Det er lettere å bli kjent når man har noe til felles.
-                    </p>
-
-                    <div class="interest-list">
-                        <span>Gaming</span>
-                        <span>Musikk</span>
-                        <span>Koding</span>
+                    <!-- ============================================================== -->
+                    <!-- BILDE 1 (FREMST): Bytt ut kilden nedenfor med ditt eget bilde!   -->
+                    <!-- Tips: Legg bildet ditt i 'static/images/person1.jpg'          -->
+                    <!-- ============================================================== -->
+                    <div class="stacked-card card-front">
+                        <div class="card-image-box">
+                            <img src="{{ url_for('static', filename='images/person1.svg') }}" 
+                                 alt="Person bilde 1" 
+                                 class="person-photo" 
+                                 id="photo1">
+                        </div>
+                        <div class="card-caption caption-gradient">
+                            <span>Finn din match</span>
+                        </div>
                     </div>
 
-                    <div class="card-footer">
-                        <span class="footer-dot"></span>
-                        Din neste venn kan være her
+                    <!-- ============================================================== -->
+                    <!-- BILDE 2 (MIDTEN): Bytt ut kilden nedenfor med ditt eget bilde!   -->
+                    <!-- Tips: Legg bildet ditt i 'static/images/person2.jpg'          -->
+                    <!-- ============================================================== -->
+                    <div class="stacked-card card-middle">
+                        <div class="card-image-box">
+                            <img src="{{ url_for('static', filename='images/person2.svg') }}" 
+                                 alt="Person bilde 2" 
+                                 class="person-photo" 
+                                 id="photo2">
+                        </div>
+                        <div class="card-caption caption-light">
+                            <span>Møt nye folk</span>
+                        </div>
                     </div>
+
+                    <!-- ============================================================== -->
+                    <!-- BILDE 3 (BAKERST): Bytt ut kilden nedenfor med ditt eget bilde!  -->
+                    <!-- Tips: Legg bildet ditt i 'static/images/person3.jpg'          -->
+                    <!-- ============================================================== -->
+                    <div class="stacked-card card-back">
+                        <div class="card-image-box">
+                            <img src="{{ url_for('static', filename='images/person3.svg') }}" 
+                                 alt="Person bilde 3" 
+                                 class="person-photo" 
+                                 id="photo3">
+                        </div>
+                        <div class="card-caption caption-dark">
+                            <span>Laget med kjærlighet</span>
+                        </div>
+                    </div>
+
                 </div>
-
-                <div class="floating-heart">♡</div>
-                <div class="floating-star">✳</div>
             </div>
         </section>
 
