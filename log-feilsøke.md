@@ -1,0 +1,2 @@
+issue: cant work with the app if the the proxy manenger is down. also if i were to make changes to design i'll have to commit -> push -> new docker image in debian -> then i'll be able to see the changess i have made. 
+sloution: instead i will run the docker container locally on wsl (windows subsytme for linux) and that way i could make changes and see them happend live in local host. after that i'll be able to push and amir can make a new image for the actual live web app. 

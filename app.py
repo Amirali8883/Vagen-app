@@ -11,21 +11,31 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-app.secret_key = os.environ["SECRET_KEY"]
-DATABASE_URL = os.environ["DATABASE_URL"]
+app.secret_key = os.environ.get("SECRET_KEY", "dev-only-secret")
+DATABASE_URL = os.environ.get("DATABASE_URL", "")
+
+# DEV_MODE=1 skips the database entirely so you can work on HTML/CSS locally
+# without needing a running PostgreSQL server.
+DEV_MODE = os.environ.get("DEV_MODE", "0") == "1"
 
 # Load the optional database driver dynamically so editors that do not have
 # the project's dependencies installed do not report a false missing import.
-psycopg = importlib.import_module("psycopg")
+if not DEV_MODE:
+    psycopg = importlib.import_module("psycopg")
 
 
 @contextmanager
 def get_db():
+    if DEV_MODE:
+        raise RuntimeError("Database is disabled in DEV_MODE")
     with psycopg.connect(DATABASE_URL) as connection:
         yield connection
 
 
 def init_db():
+    if DEV_MODE:
+        print("DEV_MODE: skipping database init")
+        return
     with get_db() as connection:
         connection.execute(
             """
