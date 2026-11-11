@@ -8,12 +8,12 @@ services:
     ports:
       - "5000:5000"
     environment:
-      DATABASE_URL: postgresql://vagen_user:${DB_PASSWORD}@db:5432/vagen_match
+      - DB_PASSWORD=${DB_PASSWORD}  # <-- Add this line to force Docker to load it first
+      - DATABASE_URL=postgresql://vagen_user:${DB_PASSWORD}@db:5432/vagen_match
     depends_on:
       db:
         condition: service_healthy
     restart: unless-stopped
-
   db:
     image: postgres:18
     env_file:
