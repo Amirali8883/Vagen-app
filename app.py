@@ -17,6 +17,7 @@ DATABASE_URL = os.environ.get("DATABASE_URL", "")
 # DEV_MODE=1 skips the database entirely so you can work on HTML/CSS locally
 # without needing a running PostgreSQL server.
 DEV_MODE = os.environ.get("DEV_MODE", "0") == "1"
+DEBUG = os.environ.get("DEBUG", "0") == "1"
 
 # Load the optional database driver dynamically so editors that do not have
 # the project's dependencies installed do not report a false missing import.
@@ -432,5 +433,7 @@ if __name__ == '__main__':
         app,
         host="0.0.0.0",
         port=5000,
+        debug=DEBUG,
+        use_reloader=DEBUG,
         allow_unsafe_werkzeug=True,
     )

@@ -188,6 +188,14 @@ Løsningen har en tydelig brukerflyt, grunnleggende validering og lokal lagring 
 
 ## 13. Produksjonsdatabase med Docker
 
+### Lokal utvikling med automatisk oppdatering
+
+For å se HTML-, CSS- og Python-endringer etter lagring, kjør `run.bat` og åpne
+`http://127.0.0.1:5000`. Denne modusen har automatisk omlasting aktivert, men
+`DEV_MODE=1` deaktiverer databasen. Forsiden og statiske filer kan derfor
+vises, mens innlogging, profiler, discover og chat krever Docker-oppsettet
+nedenfor.
+
 Appen bruker PostgreSQL når den kjører med Docker Compose. `web`-containeren
 kobler til `db`-containeren gjennom `DATABASE_URL`, og `users` og `profiles`
 opprettes automatisk i PostgreSQL. Data ligger i Docker-volumet
