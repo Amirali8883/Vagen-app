@@ -1,7 +1,4 @@
 services:
-  env_file:
-    - .env 
-  required: true
   web:
     build:
       context: .
@@ -9,7 +6,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - DATABASE_URL=postgresql://vagen_user:${DB_PASSWORD}@db:5432/vagen_match
+      DATABASE_URL: postgresql://vagen_user:${DB_PASSWORD}@db:5432/vagen_match
     depends_on:
       db:
         condition: service_healthy
@@ -18,9 +15,9 @@ services:
   db:
     image: postgres:18
     environment:
-      - POSTGRES_DB=vagen_match
-      - POSTGRES_USER=vagen_user
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      POSTGRES_DB: vagen_match
+      POSTGRES_USER: vagen_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql
     healthcheck:
