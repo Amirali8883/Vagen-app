@@ -1,110 +1,65 @@
-# dokumentasjon av Vågen-match
+# Vågen-match
 
-## 1. Innledning
+Vågen-match er en sosial webapplikasjon for elever på Vågen videregående
+skole. Elever kan opprette en konto, lage en profil, oppdage andre elever og
+sende private meldinger.
 
-**Vågen-match**, en enkel sosial webapplikasjon laget for elever på Vågen videregående skole.
+Applikasjonen er laget som en prototype. Målet har vært å vise en tydelig
+brukerflyt, server-side validering, sikker passordlagring og en løsning som
+kan kjøres med PostgreSQL i Docker.
 
-Ideen bak appen er å gjøre det lettere for elever å bli kjent med hverandre. Mange elever kan synes det er vanskelig å ta kontakt med nye mennesker og fra andre linjer. Med Vågen-match kan man lage en profil og se andre elever som også ønsker å bli kjent med nye mennesker.
+## Funksjonalitet
 
-Appen er laget som en prototype. Det betyr at hovedfokuset har vært på funksjonalitet, brukerflyt og et oversiktlig design.
+En innlogget bruker kan:
 
-## 2. Problemstillingen
+- registrere seg med et unikt brukernavn og passord
+- logge inn og ut
+- opprette eller oppdatere en profil
+- velge linje og trinn fra en forhåndsdefinert liste
+- se andre ferdige profiler på siden «Discover»
+- åpne en privat chat med en annen bruker
+- hente tidligere meldinger og motta nye meldinger i sanntid
 
-Problemstillingen var:
+Brukeren blir ikke vist sin egen profil i «Discover». Profil- og
+chat-funksjonene krever innlogging.
 
-> Hvordan kan vi lage en enkel og trygg digital løsning som hjelper elever med å oppdage andre elever på skolen?
+## Teknologier
 
-For å svare på dette laget vi en løsning med:
-- må vere på ROGFK nettverket
-- registrering og innlogging
-- personlig profil
-- valg av linje og trinn
-- oversikt over andre profiler
-- mulighet til å logge ut
+- **Python 3.12**
+- **Flask** for HTTP-ruter og HTML-rendering
+- **Flask-SocketIO** for sanntidsmeldinger
+- **Jinja** for dynamisk innhold i malene
+- **PostgreSQL** for brukere, profiler og meldinger
+- **psycopg** for tilkobling til PostgreSQL
+- **HTML, CSS og JavaScript** for brukergrensesnittet
+- **Docker Compose** for lokal kjøring med webserver og database
 
-## 3. Slik fungerer appen
+Passord lagres ikke i klartekst. `werkzeug.security` brukes til å lage og
+kontrollere passord-hasher.
 
-Brukeren følger denne flyten:
-
-1. Brukeren åpner forsiden.
-2. Brukeren oppretter en konto med brukernavn og passord.
-3. Brukeren logger inn.
-4. Brukeren fyller ut profilen sin:
-   - navn
-   - alder
-   - linje og trinn
-   - kjønn
-5. Profilen blir lagret.
-6. Brukeren kan gå til «Discover» og se andre ferdige profiler.
-7. Brukeren kan logge ut når som helst.
-
-På denne måten får brukeren en tydelig og enkel brukeropplevelse fra registrering til ferdig profil.
-
-## 4. Demonstrasjon
-### Steg 1: Forsiden
-
-vi starter på forsiden og viser navigasjonen. Herfra kan brukeren gå videre til registrering eller innlogging.
-
-### Steg 2: Registrering
-
-vi oppretter en ny bruker. Appen sjekker blant annet at:
-
-- brukernavn og passord er fylt ut
-- brukernavnet ikke er for langt
-- passordet har minst fire tegn
-- brukernavnet ikke allerede finnes
-
-Hvis noe er feil, får brukeren en tydelig feilmelding.
-
-### Steg 3: Innlogging
-
-Etter registrering logger jeg inn med brukeren. Når innloggingen er godkjent, blir brukeren sendt til sin egen side.
-
-Passordet lagres ikke som ren tekst. Det behandles med hashing ved hjelp av Werkzeug før det lagres.
-
-### Steg 4: Lage profil
-
-Jeg åpner profilsiden og fyller ut informasjonen min. Linje-feltet bruker en liste med tilgjengelige linjer og trinn, for eksempel:
-
-- Studiespesialisering
-- Informasjonsteknologi
-- Kunst, design og arkitektur
-- Musikk, dans og drama
-- flere yrkesfaglige linjer
-
-Appen validerer at navnet, alderen, linjen og kjønnet har gyldige verdier.
-
-### Steg 5: Oppdage andre elever
-
-Til slutt åpner jeg «Discover». Der vises andre elever som har laget en profil. Min egen profil blir ikke vist i listen, slik at brukeren bare ser andre profiler.
-
-## 5. Teknologier
-
-Appen er bygget med:
-
-- **Python** som programmeringsspråk
-- **Flask** som web-rammeverk
-- **HTML** for sidene og skjemaene
-- **CSS** for design og layout
-- **Jinja** for dynamisk innhold i HTML-malene
-- **JSON-filer** for enkel lagring av brukere og profiler
-
-Prosjektet bruker også `pathlib` for å håndtere filstier på en ryddig måte.
-
-Datafilene ligger samlet i en lokal `data`-mappe:
+## Prosjektstruktur
 
 ```text
-data/
-├── userdb.json
-└── profiles.json
+.
+├── app.py                 # Flask-applikasjon, ruter, validering og databasekall
+├── templates/             # Jinja-maler for sidene
+├── static/
+│   ├── css/style.css      # Stil og layout
+│   └── js/chat.js         # Klientkode for privat chat
+├── Dockerfile             # Image for webapplikasjonen
+├── docker-compose.yml     # Web- og PostgreSQL-tjeneste
+├── pyproject.toml         # Python-avhengigheter og prosjektmetadata
+└── run.bat                # Enkel DEV_MODE-start på Windows
 ```
 
-Dette gjør at brukerkontoer og profiler blir lagret på samme sted i prosjektet.
+## Kom i gang med Docker
 
-## 6. Hvordan koden er bygget opp
+### Forutsetninger
 
-Hovedlogikken ligger i `app.py`.
+- Docker Desktop med Docker Compose
+- Git, hvis prosjektet skal klones
 
+<<<<<<< HEAD
 Noen sentrale deler er:
 
 - `register()` håndterer oppretting av brukere.
@@ -203,36 +158,114 @@ opprettes automatisk i PostgreSQL. Data ligger i Docker-volumet
 de samme kontoene og profilene.
 
 Opprett en lokal `secret.env`-fil (den skal ikke committes):
+=======
+Lag en lokal fil som heter `secret.env`. Filen skal ikke committes eller deles:
+>>>>>>> 959e7b0baec8b829130d2c07b67702c927a4ac22
 
 ```env
-SECRET_KEY=generate-a-long-random-value
-DB_PASSWORD=generate-a-different-long-random-value
+SECRET_KEY=generer-en-lang-tilfeldig-verdi
+DB_PASSWORD=generer-en-annen-lang-tilfeldig-verdi
 ```
 
-Start appen slik. `--env-file` supplies the values used when Compose expands
-the database connection string, while `env_file` in `docker-compose.yml`
-passes the same secrets into the containers:
+Start webapplikasjonen og PostgreSQL:
 
 ```bash
 docker compose --env-file secret.env up -d --build
 ```
 
-Kontroller status og logger:
+Åpne deretter [http://localhost:5000](http://localhost:5000). Flask oppretter
+tabellene `users`, `profiles` og `messages` automatisk når webtjenesten
+starter. PostgreSQL-data lagres i Docker-volumet `postgres_data`.
+
+Nyttige kommandoer:
 
 ```bash
 docker compose ps
 docker compose logs -f web
+docker compose down
 ```
 
-PostgreSQL-data beholdes ved at web-containeren bygges eller startes på nytt.
-Ta regelmessige sikkerhetskopier før produksjonsbruk:
+`docker compose down` stopper og fjerner containerne, men beholder normalt
+volumet. Bruk `docker compose down -v` bare hvis databasen og alle dataene
+skal slettes.
+
+## Lokal utvikling på Windows
+
+`run.bat` starter Flask med `DEV_MODE=1` og kjører:
+
+```text
+uv run app.py
+```
+
+Dette gjør det mulig å arbeide med HTML og CSS uten en lokal PostgreSQL-server.
+I denne modusen hoppes databaseinitialiseringen over, så funksjoner som
+registrering, innlogging, profiler og chat krever en tilgjengelig database og
+skal testes med Docker Compose.
+
+For lokal kjøring må [uv](https://docs.astral.sh/uv/) være installert. Kjør
+`run.bat` fra prosjektmappen og åpne [http://127.0.0.1:5000](http://127.0.0.1:5000).
+
+## Brukerflyt
+
+1. På forsiden velger brukeren registrering eller innlogging.
+2. Ved registrering kontrolleres at brukernavn og passord er fylt ut,
+   brukernavnet er høyst 30 tegn, passordet har minst fire tegn og
+   brukernavnet ikke allerede finnes.
+3. Etter innlogging kan brukeren åpne «My Profile» og lagre navn, alder, linje,
+   trinn og kjønn.
+4. Profilen må ha navn på maksimalt 60 tegn, alder mellom 16 og 67 år, en
+   gyldig linje og et gyldig kjønn.
+5. På «Discover» vises andre brukere som har lagret en profil.
+6. Fra en profil kan brukeren åpne «Send melding». Meldinger på mellom 1 og
+   2000 tegn lagres i PostgreSQL og sendes til chatten i sanntid.
+7. «Log out» fjerner innloggingsøkten og sender brukeren tilbake til forsiden.
+
+## Hvordan koden er bygget opp
+
+Hovedlogikken ligger i [`app.py`](./app.py):
+
+- `/` viser forsiden.
+- `/register` håndterer registrering.
+- `/login` håndterer innlogging og oppretter en Flask-session.
+- `/user` viser siden for innloggede brukere.
+- `/profile` viser og lagrer profilinformasjon.
+- `/discover` henter andre profiler.
+- `/chat/<username>` viser privat chat.
+- `/api/conversations/<username>` returnerer tidligere meldinger som JSON.
+- `/logout` avslutter økten.
+- Socket.IO-hendelsene `join_room` og `send_private_message` håndterer
+  private rom og nye meldinger.
+
+Ved oppstart bruker `init_db()` `CREATE TABLE IF NOT EXISTS` for å opprette
+tabellene. Relasjonene mellom brukere, profiler og meldinger håndheves av
+PostgreSQL, og sletting av en bruker sletter tilhørende profil og meldinger
+med `ON DELETE CASCADE`.
+
+## Begrensninger og videreutvikling
+
+Dette er fortsatt en prototype. Før produksjonsbruk bør prosjektet blant annet:
+
+- bruke en separat migreringsløsning i stedet for å opprette tabeller direkte
+  ved oppstart
+- få CSRF-beskyttelse, rate limiting og strengere sesjonskonfigurasjon
+- få funksjoner for rapportering og blokkering
+- få søk og filtrering på profiler
+- få e-postbekreftelse og funksjon for glemt passord
+- få bedre tilgjengelighet og flere automatiserte tester
+- få en plan for sikkerhetskopiering, overvåking og databasevedlikehold
+
+`SECRET_KEY`, `DB_PASSWORD` og andre hemmeligheter skal alltid komme fra
+miljøvariabler eller en lokal hemmelighetsfil. Hemmeligheter som har blitt
+delt eller committet må roteres.
+
+## Sikkerhetskopiering
+
+Ta sikkerhetskopi av PostgreSQL før vedlikehold eller produksjonsendringer:
 
 ```bash
 docker compose --env-file secret.env exec -T db \
   pg_dump -U vagen_user -d vagen_match > vagen_match.sql
 ```
 
-De gamle JSON-filene i `data/` brukes ikke etter databasebyttet. Hvis de
-inneholder brukere som skal beholdes, må de migreres én gang før appen tas i
-bruk. Passord og hemmelige nøkler som allerede har blitt delt eller committet
-må roteres umiddelbart.
+Sikkerhetskopifilen kan inneholde personopplysninger og må behandles
+konfidensielt.
