@@ -1,4 +1,7 @@
 services:
+  env_file:
+    - .env 
+  required: true
   web:
     build:
       context: .
