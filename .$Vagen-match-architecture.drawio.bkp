@@ -1,0 +1,135 @@
+<mxfile host="app.diagrams.net" modified="2026-11-11T11:10:00.000Z" agent="Copilot" version="24.7.17">
+  <diagram id="vagen-match-architecture" name="Vågen-match - arkitektur og brukerflyt">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="Vågen-match&#xa;Arkitektur og brukerflyt" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#263238;" vertex="1" parent="1">
+          <mxGeometry x="40" y="30" width="600" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitle" value="Sosial webapplikasjon for elever på Vågen videregående skole" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=14;fontColor=#546E7A;" vertex="1" parent="1">
+          <mxGeometry x="42" y="92" width="600" height="30" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="userLane" value="Bruker og nettleser" style="swimlane;html=1;rounded=1;horizontal=0;startSize=30;fillColor=#E3F2FD;strokeColor=#1976D2;fontStyle=1;fontColor=#0D47A1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="150" width="300" height="600" as="geometry"/>
+        </mxCell>
+        <mxCell id="appLane" value="Flask-applikasjon" style="swimlane;html=1;rounded=1;horizontal=0;startSize=30;fillColor=#F3E5F5;strokeColor=#8E24AA;fontStyle=1;fontColor=#4A148C;" vertex="1" parent="1">
+          <mxGeometry x="390" y="150" width="520" height="600" as="geometry"/>
+        </mxCell>
+        <mxCell id="dataLane" value="Databaselag" style="swimlane;html=1;rounded=1;horizontal=0;startSize=30;fillColor=#E8F5E9;strokeColor=#388E3C;fontStyle=1;fontColor=#1B5E20;" vertex="1" parent="1">
+          <mxGeometry x="960" y="150" width="300" height="600" as="geometry"/>
+        </mxCell>
+        <mxCell id="opsLane" value="Kjøring og drift" style="swimlane;html=1;rounded=1;horizontal=0;startSize=30;fillColor=#FFF3E0;strokeColor=#EF6C00;fontStyle=1;fontColor=#E65100;" vertex="1" parent="1">
+          <mxGeometry x="1310" y="150" width="250" height="600" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="browser" value="Nettleser&#xa;HTML / CSS / JavaScript" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1976D2;fontSize=14;" vertex="1" parent="userLane">
+          <mxGeometry x="35" y="70" width="230" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="registration" value="1. Registrering / innlogging&#xa;Unikt brukernavn&#xa;Passord min. 4 tegn" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1976D2;" vertex="1" parent="userLane">
+          <mxGeometry x="35" y="180" width="230" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="profileFlow" value="2. My Profile&#xa;Navn, alder, linje/trinn, kjønn" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1976D2;" vertex="1" parent="userLane">
+          <mxGeometry x="35" y="300" width="230" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="discoverFlow" value="3. Discover&#xa;Se andre profiler&#xa;Egen profil skjules" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1976D2;" vertex="1" parent="userLane">
+          <mxGeometry x="35" y="410" width="230" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="chatFlow" value="4. Privat chat&#xa;Hent historikk og send melding" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1976D2;" vertex="1" parent="userLane">
+          <mxGeometry x="35" y="530" width="230" height="70" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="routes" value="Flask-ruter&#xa;/ /register /login /user&#xa;/profile /discover /chat/&lt;username&gt; /logout" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8E24AA;fontSize=13;" vertex="1" parent="appLane">
+          <mxGeometry x="35" y="70" width="450" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="validation" value="Server-side validering&#xa;• brukernavn maks 30 tegn og unikt&#xa;• navn maks 60 tegn&#xa;• alder 16–67&#xa;• gyldig linje og kjønn" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8E24AA;" vertex="1" parent="appLane">
+          <mxGeometry x="35" y="205" width="215" height="125" as="geometry"/>
+        </mxCell>
+        <mxCell id="security" value="Sikkerhet&#xa;Werkzeug password hashing&#xa;Flask session&#xa;SECRET_KEY fra miljøvariabel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8E24AA;" vertex="1" parent="appLane">
+          <mxGeometry x="270" y="205" width="215" height="125" as="geometry"/>
+        </mxCell>
+        <mxCell id="socket" value="Flask-SocketIO&#xa;join_room&#xa;send_private_message&#xa;Sanntidsmeldinger" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8E24AA;" vertex="1" parent="appLane">
+          <mxGeometry x="35" y="370" width="215" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="api" value="JSON API&#xa;/api/conversations/&lt;username&gt;&#xa;Henter tidligere meldinger" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8E24AA;" vertex="1" parent="appLane">
+          <mxGeometry x="270" y="370" width="215" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="templates" value="Jinja-maler&#xa;templates/ + static/&#xa;HTML, CSS og JavaScript" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8E24AA;" vertex="1" parent="appLane">
+          <mxGeometry x="35" y="510" width="450" height="65" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="usersTable" value="users&#xa;username (PK)&#xa;password_hash&#xa;created_at" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#FFFFFF;strokeColor=#388E3C;" vertex="1" parent="dataLane">
+          <mxGeometry x="45" y="85" width="210" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="profilesTable" value="profiles&#xa;username (FK)&#xa;name, age, linje, gender" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#FFFFFF;strokeColor=#388E3C;" vertex="1" parent="dataLane">
+          <mxGeometry x="45" y="245" width="210" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="messagesTable" value="messages&#xa;sender_id / recipient_id&#xa;content, timestamp" style="shape=cylinder;whiteSpace=wrap;html=1;boundedLbl=1;fillColor=#FFFFFF;strokeColor=#388E3C;" vertex="1" parent="dataLane">
+          <mxGeometry x="45" y="405" width="210" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="dbRules" value="PostgreSQL&#xa;CREATE TABLE IF NOT EXISTS&#xa;ON DELETE CASCADE&#xa;Volumet postgres_data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#388E3C;" vertex="1" parent="dataLane">
+          <mxGeometry x="45" y="535" width="210" height="65" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="compose" value="Docker Compose&#xa;web + db&#xa;DATABASE_URL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#EF6C00;" vertex="1" parent="opsLane">
+          <mxGeometry x="25" y="85" width="200" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="docker" value="Dockerfile&#xa;Python 3.12-slim&#xa;Port 5000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#EF6C00;" vertex="1" parent="opsLane">
+          <mxGeometry x="25" y="225" width="200" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="devmode" value="Windows utvikling&#xa;run.bat → uv run app.py&#xa;DEV_MODE=1&#xa;uten database" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#EF6C00;" vertex="1" parent="opsLane">
+          <mxGeometry x="25" y="365" width="200" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="backup" value="Sikkerhetskopi&#xa;pg_dump&#xa;vagen_match.sql" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#EF6C00;" vertex="1" parent="opsLane">
+          <mxGeometry x="25" y="520" width="200" height="65" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e1" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#1976D2;" edge="1" parent="1" source="browser" target="routes">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2" value="skjema" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#1976D2;" edge="1" parent="1" source="registration" target="validation">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" value="profildata" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#1976D2;" edge="1" parent="1" source="profileFlow" target="validation">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" value="oppdag" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#1976D2;" edge="1" parent="1" source="discoverFlow" target="routes">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" value="chat" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#1976D2;" edge="1" parent="1" source="chatFlow" target="socket">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" value="lese/skrive" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#388E3C;" edge="1" parent="1" source="routes" target="usersTable">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7" value="profil" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#388E3C;" edge="1" parent="1" source="validation" target="profilesTable">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8" value="historikk" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#388E3C;" edge="1" parent="1" source="api" target="messagesTable">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e9" value="lagrer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#388E3C;" edge="1" parent="1" source="socket" target="messagesTable">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e10" value="bygg / kjør" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#EF6C00;dashed=1;" edge="1" parent="1" source="compose" target="appLane">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e11" value="PostgreSQL-tjeneste" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#EF6C00;dashed=1;" edge="1" parent="1" source="compose" target="dataLane">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e12" value="backup" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;strokeColor=#EF6C00;dashed=1;" edge="1" parent="1" source="backup" target="messagesTable">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="legend" value="Heltrukket pil = bruker-/datakall&#xa;Stiplet pil = drift og distribusjon" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#90A4AE;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="805" width="430" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="note" value="Produksjonsforbehold: CSRF-beskyttelse, rate limiting, migreringer, rapportering/blokkering og overvåking er dokumentert som videreutvikling i README.md." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFDE7;strokeColor=#F9A825;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="500" y="805" width="1060" height="55" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
