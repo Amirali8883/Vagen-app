@@ -20,7 +20,9 @@ html {
 
 body {
     margin: 0;
-    background: #fffafd;
+    background:
+        linear-gradient(rgba(255, 250, 253, 0.72), rgba(255, 250, 253, 0.72)),
+        url("../images/school-background.png") center / cover fixed no-repeat;
     color: var(--text);
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -523,6 +525,7 @@ a {
 .site-footer {
     padding: 22px;
     text-align: center;
+    background: #ffffff;
     border-top: 1px solid #f2e2e9;
     color: var(--muted);
     font-size: 12px;

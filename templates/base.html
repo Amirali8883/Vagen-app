@@ -53,20 +53,7 @@
                 <span class="hero-tagline">Finn din match</span>
 
                 <h1 class="hero-headline">
-                    <span class="strike-wrap">
-                        <span class="strike-word">Slett alle</span>
-                        <svg class="strike-squiggle" viewBox="0 0 280 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                            <path d="M 4 13 C 45 4, 90 22, 140 11 C 190 1, 230 20, 276 12" stroke="url(#squiggleGrad)" stroke-width="4.5" stroke-linecap="round"/>
-                            <defs>
-                                <linearGradient id="squiggleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="#8b5cf6"/>
-                                    <stop offset="50%" stop-color="#c084fc"/>
-                                    <stop offset="100%" stop-color="#ec4899"/>
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </span>
-                    <span class="headline-block">dating-apper</span>
+                    <span class="headline-block">Vågen Match</span>
                 </h1>
 
                 <p class="hero-text">
@@ -94,48 +81,6 @@
                     </div>
                 </div>
 
-                <!-- 3 Feature Badges -->
-                <div class="hero-stats-row">
-                    <div class="stat-badge">
-                        <div class="stat-icon-wrapper stat-pink">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                            </svg>
-                        </div>
-                        <div class="stat-info">
-                            <strong>10k+ Elever</strong>
-                            <span>Møt folk på din skole</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-badge">
-                        <div class="stat-icon-wrapper stat-purple">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04z"></path>
-                                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04z"></path>
-                            </svg>
-                        </div>
-                        <div class="stat-info">
-                            <strong>Smart match</strong>
-                            <span>Finn felles interesser</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-badge">
-                        <div class="stat-icon-wrapper stat-indigo">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-                                <line x1="9" y1="9" x2="9.01" y2="9"></line>
-                                <line x1="15" y1="9" x2="15.01" y2="9"></line>
-                            </svg>
-                        </div>
-                        <div class="stat-info">
-                            <strong>Ekte venner</strong>
-                            <span>Nye bekjentskaper</span>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Stacked Photo Cards Deck -->
@@ -148,7 +93,7 @@
                     <!-- ============================================================== -->
                     <div class="stacked-card card-front">
                         <div class="card-image-box">
-                            <img src="{{ url_for('static', filename='images/person1.svg') }}" 
+                            <img src="{{ url_for('static', filename='images/person1.jpg', v=1) }}" 
                                  alt="Person bilde 1" 
                                  class="person-photo" 
                                  id="photo1">
@@ -164,7 +109,7 @@
                     <!-- ============================================================== -->
                     <div class="stacked-card card-middle">
                         <div class="card-image-box">
-                            <img src="{{ url_for('static', filename='images/person2.svg') }}" 
+                            <img src="{{ url_for('static', filename='images/person2.jpg', v=1) }}" 
                                  alt="Person bilde 2" 
                                  class="person-photo" 
                                  id="photo2">
@@ -180,7 +125,7 @@
                     <!-- ============================================================== -->
                     <div class="stacked-card card-back">
                         <div class="card-image-box">
-                            <img src="{{ url_for('static', filename='images/person3.svg') }}" 
+                            <img src="{{ url_for('static', filename='images/person3.jpg', v=1) }}" 
                                  alt="Person bilde 3" 
                                  class="person-photo" 
                                  id="photo3">

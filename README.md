@@ -59,7 +59,108 @@ kontrollere passord-hasher.
 - Docker Desktop med Docker Compose
 - Git, hvis prosjektet skal klones
 
+<<<<<<< HEAD
+Noen sentrale deler er:
+
+- `register()` håndterer oppretting av brukere.
+- `login()` kontrollerer brukernavn og passord.
+- `profile()` viser og lagrer profilinformasjon.
+- `discover()` finner og viser andre profiler.
+- `load_users()` og `save_users()` leser og lagrer brukere.
+- `load_profiles()` og `save_profiles()` leser og lagrer profiler.
+
+Flask-ruter bestemmer hvilken funksjon som skal kjøre når brukeren besøker en bestemt adresse, for eksempel `/login`, `/profile` eller `/discover`.
+
+## 7. Validering og brukerfeedback
+
+En viktig del av appen er at brukeren får beskjed når noe er feil. Eksempler på validering er:
+
+- navn kan ikke være tomt eller lengre enn 60 tegn
+- alder må være mellom 16 og 67 år
+- linjen må være valgt fra listen over gyldige linjer
+- kjønn må være et gyldig alternativ
+- brukernavn må være unikt
+
+Feilmeldinger vises med Flask `flash()` slik at brukeren forstår hva som må rettes.
+
+## 8. Design og brukeropplevelse
+
+Designet bruker en lys bakgrunn med rosa detaljer. Dette gir appen et vennlig og sosialt uttrykk.
+
+Jeg har lagt vekt på:
+
+- enkel navigasjon
+- tydelige knapper
+- korte skjemaer
+- god avstand mellom elementene
+- et språk som er lett å forstå
+- et design som fungerer på både store og små skjermer
+
+Målet er at brukeren skal forstå hva appen gjør uten å måtte lese mye informasjon først.
+
+## 9. Hva som fungerer bra
+
+Det som fungerer bra i løsningen er:
+
+- brukerflyten er enkel å følge
+- registrering og innlogging fungerer sammen
+- brukeren kan lagre og oppdatere profilen sin
+- bare innloggede brukere får tilgang til profil- og discover-sidene
+- passord blir hashet før lagring
+- profilene blir presentert på en oversiktlig måte
+- løsningen er lett å videreutvikle
+
+## 10. Begrensninger ved prototypen
+
+Siden dette er en prototype, har løsningen noen begrensninger:
+
+- data lagres i JSON-filer i stedet for en database
+- det finnes ikke ekte meldinger mellom brukere
+- brukere kan ikke filtrere eller søke etter profiler
+- det finnes ikke e-postbekreftelse eller glemt passord
+- løsningen har ikke et ferdig system for rapportering eller blokkering
+- sikkerhet og personvern må styrkes før appen kan brukes i produksjon
+
+JSON-filer passer godt for å demonstrere funksjonalitet, men en større applikasjon bør bruke en ordentlig database.
+
+## 11. Mulig videreutvikling
+
+Hvis jeg skulle jobbet videre med prosjektet, ville jeg prioritert:
+
+1. Bytte ut JSON-lagringen med en database, for eksempel SQLite eller PostgreSQL.
+2. Lage et meldingssystem mellom brukere.
+3. Legge til søk og filtrering på linje, trinn og interesser.
+4. La brukeren legge til interesser og et profilbilde.
+5. Lage funksjoner for å blokkere og rapportere brukere.
+6. Forbedre tilgjengelighet, blant annet tastaturnavigasjon og tydeligere kontraster.
+7. Flytte hemmelige innstillinger, som Flask sin secret key, til miljøvariabler.
+
+## 12. Avslutning
+
+Vågen-match er en enkel prototype som viser hvordan en webapplikasjon kan hjelpe elever med å bli kjent med andre på skolen.
+
+Løsningen har en tydelig brukerflyt, grunnleggende validering og lokal lagring av kontoer og profiler. Selv om appen kan forbedres med database, meldinger og bedre sikkerhet, viser prototypen de viktigste delene av en fungerende sosial webapplikasjon.
+
+## 13. Produksjonsdatabase med Docker
+
+### Lokal utvikling med automatisk oppdatering
+
+For å se HTML-, CSS- og Python-endringer etter lagring, kjør `run.bat` og åpne
+`http://127.0.0.1:5000`. Denne modusen har automatisk omlasting aktivert, men
+`DEV_MODE=1` deaktiverer databasen. Forsiden og statiske filer kan derfor
+vises, mens innlogging, profiler, discover og chat krever Docker-oppsettet
+nedenfor.
+
+Appen bruker PostgreSQL når den kjører med Docker Compose. `web`-containeren
+kobler til `db`-containeren gjennom `DATABASE_URL`, og `users` og `profiles`
+opprettes automatisk i PostgreSQL. Data ligger i Docker-volumet
+`postgres_data`, ikke i web-containeren. Derfor kan flere web-containere dele
+de samme kontoene og profilene.
+
+Opprett en lokal `secret.env`-fil (den skal ikke committes):
+=======
 Lag en lokal fil som heter `secret.env`. Filen skal ikke committes eller deles:
+>>>>>>> 959e7b0baec8b829130d2c07b67702c927a4ac22
 
 ```env
 SECRET_KEY=generer-en-lang-tilfeldig-verdi
