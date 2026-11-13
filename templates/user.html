@@ -10,15 +10,7 @@
 </head>
 <body>
 
-    <header class="app-header">
-        <a href="/" class="logo">
-            <span class="logo-icon">Vågen-match</span>
-        </a>
-
-        <a href="{{ url_for('logout') }}" class="nav-link login-btn">
-            Logg ut
-        </a>
-    </header>
+    {% include "_navbar.html" %}
 
     <main class="login-container">
         <section class="login-card">

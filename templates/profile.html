@@ -10,20 +10,7 @@
 </head>
 <body>
 
-    <header class="app-header">
-        <a href="/" class="logo">
-            <span class="logo-icon">V</span> Vågen-match
-        </a>
-
-        <nav class="nav-bar">
-            <ul class="nav-list">
-                <li><a href="/" class="nav-link">Home</a></li>
-                <li><a href="{{ url_for('discover') }}" class="nav-link">Discover</a></li>
-                <li><a href="{{ url_for('profile') }}" class="nav-link active">My Profile</a></li>
-                <li><a href="{{ url_for('logout') }}" class="nav-link login-btn">Log out</a></li>
-            </ul>
-        </nav>
-    </header>
+    {% include "_navbar.html" %}
 
     <main class="login-container">
         <section class="login-card">

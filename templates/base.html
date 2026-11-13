@@ -13,38 +13,7 @@
 </head>
 <body>
 
-    <!-- Navigation -->
-    <header class="app-header">
-        <a href="/" class="logo">
-            <span class="logo-icon">Vågen-match</span></a>
-
-        <button class="menu-toggle"
-                id="menuToggle"
-                aria-label="Open navigation menu"
-                aria-expanded="false">☰</button>
-
-        <nav class="nav-bar" id="navBar">
-            <ul class="nav-list">
-                <li><a href="/" class="nav-link active">Home</a></li>
-                <li><a href="{{ url_for('discover') if session.get('user') or DEV_MODE else url_for('login') }}" class="nav-link">Discover</a></li>
-                <li><a href="{{ url_for('profile') if session.get('user') else url_for('login') }}" class="nav-link">My Profile</a></li>
-                <!-- Login/Logout. hvis bruker nav hvis du er du innlogget -->
-                    {% if session.get('user') %}
-                <li>
-                    <a href="{{ url_for('user') }}" class="nav-link login-btn">
-                        {{ session['user'] }}
-                    </a>                
-                </li>
-                    {% else %}
-                <li>
-                    <a href="{{ url_for('login') }}" class="nav-link login-btn">
-                        Login
-                    </a>
-                </li>
-                    {% endif %}
-            </ul>
-        </nav>
-    </header>
+    {% include "_navbar.html" %}
 
     <!-- Hero Section -->
     <main class="main-container">
@@ -171,9 +140,6 @@
     <footer class="site-footer">
         <p>© 2026 Vågen-match · Laget for elever på Vågen VGS</p>
     </footer>
-
-    
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 </html>

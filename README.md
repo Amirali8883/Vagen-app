@@ -43,6 +43,8 @@ kontrollere passord-hasher.
 .
 ├── app.py                 # Flask-applikasjon, ruter, validering og databasekall
 ├── templates/             # Jinja-maler for sidene
+│   ├── base.html          # Felles HTML-ramme for forsiden
+│   └── _navbar.html       # Felles navigasjonsmeny
 ├── static/
 │   ├── css/style.css      # Stil og layout
 │   └── js/chat.js         # Klientkode for privat chat
@@ -69,6 +71,45 @@ Noen sentrale deler er:
 - `load_profiles()` og `save_profiles()` leser og lagrer profiler.
 
 Flask-ruter bestemmer hvilken funksjon som skal kjøre når brukeren besøker en bestemt adresse, for eksempel `/login`, `/profile` eller `/discover`.
+
+## Felles navigasjonsmeny
+
+Navigasjonsmenyen ligger i [`templates/_navbar.html`](./templates/_navbar.html).
+Den er laget som en egen Jinja-partial, slik at menyen bare trenger å
+vedlikeholdes på ett sted. Når en lenke skal legges til eller endres, gjøres
+endringen derfor i `_navbar.html`, ikke i hver enkelt side.
+
+Forsiden bruker mal-arv:
+
+```jinja
+{% extends "base.html" %}
+```
+
+`base.html` inkluderer deretter navigasjonsmenyen:
+
+```jinja
+{% include "_navbar.html" %}
+```
+
+Sidene som ikke arver fra `base.html`, blant annet `chat.html`, `discover.html`,
+`profile.html`, `login.html`, `register.html` og `user.html`, inkluderer
+`_navbar.html` direkte. Derfor får chat-siden de samme Home-, Discover- og
+My Profile-lenkene som de andre sidene.
+
+Menyen bruker Flask/Jinja-verdier til å tilpasse seg siden og brukeren:
+
+- `request.endpoint` legger til klassen `active` på lenken for siden som vises.
+- `session.get('user')` viser innlogget brukernavn og «Log out» når brukeren er
+  innlogget.
+- Når brukeren ikke er innlogget, peker Discover og My Profile til
+  innloggingssiden. I `DEV_MODE` kan disse sidene åpnes for forhåndsvisning.
+- `script.js` kobles inn fra partialen og åpner/lukker menyen på små skjermer
+  med hamburgerknappen.
+
+Det betyr at sidene deler både samme markup, samme lenker og samme
+innloggingslogikk. Hvis en ny side skal ha menyen, kan den enten arve
+`base.html` eller inkludere `{% include "_navbar.html" %}` dersom siden har
+sin egen HTML-struktur.
 
 ## 7. Validering og brukerfeedback
 

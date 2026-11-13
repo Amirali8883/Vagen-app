@@ -8,12 +8,7 @@
           href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <header class="app-header">
-        <a href="{{ url_for('discover') }}" class="logo">
-            <span class="logo-icon">Vågen-match</span>
-        </a>
-        <a href="{{ url_for('logout') }}" class="nav-link login-btn">Logg ut</a>
-    </header>
+    {% include "_navbar.html" %}
 
     <main class="dm-page">
         <section class="dm-shell">
