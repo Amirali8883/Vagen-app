@@ -3,8 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    env_file:
-      - secret.env
     ports:
       - "5000:5000"
     environment:
@@ -16,8 +14,6 @@ services:
 
   db:
     image: postgres:18
-    env_file:
-      - secret.env
     environment:
       POSTGRES_DB: vagen_match
       POSTGRES_USER: vagen_user
