@@ -15,28 +15,76 @@
         <a href="{{ url_for('logout') }}" class="nav-link login-btn">Logg ut</a>
     </header>
 
-    <main class="login-container">
-        <section class="login-card">
-            <span class="hero-tag">PRIVAT CHAT</span>
-            <h1>Chat med {{ recipient_username }}</h1>
-            <div id="messages" aria-live="polite"></div>
-            <p id="chat-error" class="login-error" hidden></p>
-            <form id="message-form">
-                <label for="message">Melding</label>
-                <textarea id="message" maxlength="2000" required></textarea>
-                <button type="submit" class="login-submit">Send →</button>
-            </form>
+    <main class="dm-page">
+        <section class="dm-shell">
+            <aside class="dm-sidebar">
+                <div class="dm-sidebar-header">
+                    <div>
+                        <span class="section-label">PRIVATE MELDINGER</span>
+                        <h1>Meldinger</h1>
+                    </div>
+                    <span class="dm-count">{{ previous_chats|length }}</span>
+                </div>
+
+                <label class="dm-search">
+                    <span class="sr-only">Søk i samtaler</span>
+                    <input type="search" placeholder="Søk i samtaler">
+                </label>
+
+                <nav class="dm-chat-list" aria-label="Tidligere samtaler">
+                    {% for chat in previous_chats %}
+                        <a class="dm-chat-item{% if chat.username == recipient_username %} active{% endif %}"
+                           href="{{ url_for('chat', username=chat.username) }}">
+                            <span class="dm-chat-copy">
+                                <strong>{{ chat.username }}</strong>
+                                <span>{{ chat.last_message }}</span>
+                            </span>
+                        </a>
+                    {% endfor %}
+                </nav>
+            </aside>
+
+            <section class="dm-conversation">
+                <header class="dm-conversation-header">
+                    <div>
+                        <span class="section-label">SAMTALE</span>
+                        <h2>{{ recipient_username }}</h2>
+                    </div>
+                    <span class="dm-status">Privat chat</span>
+                </header>
+
+                <div class="dm-messages" id="messages" aria-live="polite">
+                    {% if preview_mode %}
+                        {% for message in preview_messages %}
+                            <p class="dm-message{% if message.sender_id == current_username %} sent{% else %} received{% endif %}">
+                                {{ message.content }}
+                            </p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <p id="chat-error" class="login-error" hidden></p>
+
+                <form class="dm-form" id="message-form">
+                    <label class="sr-only" for="message">Melding</label>
+                    <textarea id="message" maxlength="2000"
+                              placeholder="Skriv en melding..." required></textarea>
+                    <button class="dm-send-button" type="submit">Send →</button>
+                </form>
+            </section>
         </section>
     </main>
 
-    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
-    <script>
-        window.chatConfig = {
-            currentUsername: {{ current_username|tojson }},
-            recipientUsername: {{ recipient_username|tojson }},
-            historyUrl: {{ url_for("conversation_history", username=recipient_username)|tojson }}
-        };
-    </script>
-    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    {% if not preview_mode %}
+        <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+        <script>
+            window.chatConfig = {
+                currentUsername: {{ current_username|tojson }},
+                recipientUsername: {{ recipient_username|tojson }},
+                historyUrl: {{ url_for("conversation_history", username=recipient_username)|tojson }}
+            };
+        </script>
+        <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+    {% endif %}
 </body>
 </html>

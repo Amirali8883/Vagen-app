@@ -200,6 +200,9 @@ skal testes med Docker Compose.
 
 For lokal kjøring må [uv](https://docs.astral.sh/uv/) være installert. Kjør
 `run.bat` fra prosjektmappen og åpne [http://127.0.0.1:5000](http://127.0.0.1:5000).
+I `DEV_MODE` kan du åpne Discover direkte fra navigasjonen for å gjøre
+CSS-endringer med eksempelprofiler, uten å logge inn eller starte databasen.
+Knappene for å sende melding åpner også en chat-forhåndsvisning for styling.
 
 ## Brukerflyt
 

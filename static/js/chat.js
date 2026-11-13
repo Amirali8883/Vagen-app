@@ -13,7 +13,8 @@
 
     function renderMessage(message) {
         const item = document.createElement("p");
-        item.textContent = `${message.sender_id}: ${message.content}`;
+        item.className = `dm-message ${message.sender_id === config.currentUsername ? "sent" : "received"}`;
+        item.textContent = message.content;
         messages.appendChild(item);
     }
 
