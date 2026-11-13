@@ -8,8 +8,8 @@ echo.
 echo  Trykk CTRL+C for a stoppe serveren.
 echo.
 
-set DEV_MODE=1
-set DEBUG=1
+set DEV_MODE=0
+set DEBUG=0
 uv run app.py
 
 pause

@@ -59,7 +59,6 @@ kontrollere passord-hasher.
 - Docker Desktop med Docker Compose
 - Git, hvis prosjektet skal klones
 
-<<<<<<< HEAD
 Noen sentrale deler er:
 
 - `register()` håndterer oppretting av brukere.
@@ -157,10 +156,7 @@ opprettes automatisk i PostgreSQL. Data ligger i Docker-volumet
 `postgres_data`, ikke i web-containeren. Derfor kan flere web-containere dele
 de samme kontoene og profilene.
 
-Opprett en lokal `secret.env`-fil (den skal ikke committes):
-=======
 Lag en lokal fil som heter `secret.env`. Filen skal ikke committes eller deles:
->>>>>>> 959e7b0baec8b829130d2c07b67702c927a4ac22
 
 ```env
 SECRET_KEY=generer-en-lang-tilfeldig-verdi
