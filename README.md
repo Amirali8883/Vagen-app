@@ -268,3 +268,4 @@ docker compose --env-file secret.env exec -T db \
 
 Sikkerhetskopifilen kan inneholde personopplysninger og må behandles
 konfidensielt.
+hilsen Amir og Andreas!
