@@ -18,6 +18,42 @@ DATABASE_URL = os.environ.get("DATABASE_URL", "")
 # without needing a running PostgreSQL server.
 DEV_MODE = os.environ.get("DEV_MODE", "0") == "1"
 DEBUG = os.environ.get("DEBUG", "0") == "1"
+app.jinja_env.globals["DEV_MODE"] = DEV_MODE
+
+DEV_PREVIEW_PROFILES = [
+    {
+        "username": "demo_mina",
+        "name": "Mina",
+        "age": 17,
+        "linje": "Vg2 - Studiespesialisering",
+        "gender": "women",
+    },
+    {
+        "username": "demo_noah",
+        "name": "Noah",
+        "age": 18,
+        "linje": "Vg3 - Informasjonsteknologi",
+        "gender": "man",
+    },
+    {
+        "username": "demo_emilie",
+        "name": "Emilie",
+        "age": 16,
+        "linje": "Vg1 - Kunst, design og arkitektur",
+        "gender": "other",
+    },
+]
+DEV_PREVIEW_USERNAMES = {profile["username"] for profile in DEV_PREVIEW_PROFILES}
+DEV_PREVIEW_CHATS = [
+    {"username": "demo_mina", "last_message": "Hei! Hvordan går det?"},
+    {"username": "demo_noah", "last_message": "Vi sees på skolen!"},
+    {"username": "demo_emilie", "last_message": "Det høres bra ut."},
+]
+DEV_PREVIEW_MESSAGES = [
+    {"sender_id": "demo_mina", "content": "Hei! Hvordan går det?"},
+    {"sender_id": "demo_you", "content": "Det går bra, takk!"},
+    {"sender_id": "demo_mina", "content": "Så hyggelig å høre."},
+]
 
 # Load the optional database driver dynamically so editors that do not have
 # the project's dependencies installed do not report a false missing import.
@@ -212,8 +248,45 @@ def user_exists(username):
         ).fetchone() is not None
 
 
+def previous_chats(username):
+    with get_db() as connection:
+        rows = connection.execute(
+            """
+            SELECT other_username, MAX(timestamp) AS last_message_at
+            FROM (
+                SELECT
+                    CASE
+                        WHEN sender_id = %s THEN recipient_id
+                        ELSE sender_id
+                    END AS other_username,
+                    timestamp
+                FROM messages
+                WHERE sender_id = %s OR recipient_id = %s
+            ) AS conversations
+            GROUP BY other_username
+            ORDER BY last_message_at DESC
+            """,
+            (username, username, username)
+        ).fetchall()
+
+    return [
+        {"username": row[0], "last_message": "Previous conversation"}
+        for row in rows
+    ]
+
+
 @app.route("/chat/<username>")
 def chat(username):
+    if DEV_MODE and username in DEV_PREVIEW_USERNAMES:
+        return render_template(
+            "chat.html",
+            current_username="demo_you",
+            recipient_username=username,
+            previous_chats=DEV_PREVIEW_CHATS,
+            preview_messages=DEV_PREVIEW_MESSAGES,
+            preview_mode=True,
+        )
+
     current_username = session.get("user")
     if not current_username:
         return redirect(url_for("login"))
@@ -224,6 +297,8 @@ def chat(username):
         "chat.html",
         current_username=current_username,
         recipient_username=username,
+        previous_chats=previous_chats(current_username),
+        preview_messages=[],
     )
 
 
@@ -395,6 +470,13 @@ def profile():
 
 @app.route("/discover")
 def discover():
+    if DEV_MODE and "user" not in session:
+        return render_template(
+            "discover.html",
+            profiles=DEV_PREVIEW_PROFILES,
+            preview_mode=True,
+        )
+
     if "user" not in session:
         return redirect(url_for("login"))
 
